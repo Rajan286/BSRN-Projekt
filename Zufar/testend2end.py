@@ -1,7 +1,7 @@
 import socket
 import threading
 from peer import Peer
-#Test end to end Datei
+#Test end to end Datei 
 
 def simulate_peer_connection(sender_peer, receiver_peer, message, result):
     """
