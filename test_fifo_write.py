@@ -1,4 +1,4 @@
-# 2. Commit Yasmin
+
 import threading
 from common_test import create_fifo, write_to_fifo, read_from_fifo, pipe_path
 import os
@@ -10,7 +10,6 @@ def test_fifo_write_read(tmp_path):
     name = "User_fifo"
     create_fifo(name)
 
-    # Ergebniscontainer
     result = []
 
     def reader():
