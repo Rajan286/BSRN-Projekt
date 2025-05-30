@@ -1,6 +1,5 @@
-[DEFAULT]
-handle = "Alice"
-port = 5000
-whoisport = 4000
-autoreply = "Ich bin gerade nicht da."
+[DEFAULT] # entnommen von Bileya 
+handle = "Bileya"
+port = 5001
 imagepath = "images"
+autoreply = "Ich antworte später."
