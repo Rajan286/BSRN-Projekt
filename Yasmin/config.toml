@@ -1,0 +1,5 @@
+[DEFAULT]
+handle = "Bileya"
+port = 5001
+imagepath = "images"
+autoreply = "Ich antworte später."
