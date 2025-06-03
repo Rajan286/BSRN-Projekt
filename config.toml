@@ -1,4 +1,4 @@
-[DEFAULT] # entnommen von Bileya 
+[DEFAULT]
 handle = "Bileya"
 port = 5001
 imagepath = "images"

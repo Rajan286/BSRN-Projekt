@@ -1,5 +1,5 @@
 import socket
-from Soufian.DiscoveryService import DiscoveryService
+from DiscoveryService import DiscoveryService
 from User import User  
  
 

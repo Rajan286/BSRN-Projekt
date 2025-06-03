@@ -1,7 +1,6 @@
-# 1. Commit Bileya
+
 import os
 import toml
-# 2. Commit Yasmin
 import time
 
 PIPE_DIR = "/tmp/slcp_bileya"
@@ -23,8 +22,7 @@ def load_config(path="config.toml"):
     
 
 
-# 1. Commit inkl. test_config.py und config.toml Bileya
-# Testfunktion
+
 def test_config_laden():
     config = load_config("config.toml")
     assert config["handle"] == "Bileya"
@@ -33,7 +31,6 @@ def test_config_laden():
     assert config["autoreply"] == "Ich antworte später."
 
 
- # 2. Commit inkl. test_fifo_write.py Yasmin
 def write_to_fifo(name, message):
     path = pipe_path(name)
 
@@ -47,7 +44,7 @@ def write_to_fifo(name, message):
                 fifo.write(message + "\n")
             return
         except OSError as e:
-            if e.errno in (6, 32):  # Kein Leser / Broken Pipe
+            if e.errno in (6, 32):  
                 time.sleep(0.2)
             else:
                 return
@@ -63,3 +60,4 @@ def read_from_fifo(name, blocking=True):
             return fifo.readline().strip()
     except:
         return ""
+
