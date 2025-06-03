@@ -4,5 +4,5 @@ class User:
         self.ip = ip          
         self.port = port      
 
-    def __str__(self):
+    def toString(self):
         return f"User(handle='{self.handle}', ip='{self.ip}', port={self.port})"
