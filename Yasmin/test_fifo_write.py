@@ -1,10 +1,8 @@
-
 import threading
-from common_test import create_fifo, write_to_fifo, read_from_fifo, pipe_path
-import os
+from Yasmin.common_test import create_fifo, write_to_fifo, read_from_fifo, pipe_path
 
 def test_fifo_write_read(tmp_path):
-    import common_test
+    import Yasmin.common_test as common_test
     common_test.PIPE_DIR = str(tmp_path)
 
     name = "User_fifo"
