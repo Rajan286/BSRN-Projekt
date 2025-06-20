@@ -53,17 +53,12 @@
  * - **WinError 10488**:jede Socketadresse darf nur jeweils einmal geöffnet werden - Lösung:Jeweiliges Terminal schließen und neu starten
  * - **Your branch is behind**: Andere Mitglieder haben comittet und man selber hat nicht gepullt - Lösung: git pull im Terminal eingeben.
  * - **TypeError**: type ´DiscoveryService' is not subscriptable - Lösung: Objekte in Liste angeben.
- * - **
- * - **
- * - **
- * - **
- * - **
  *
  * Screenshots einbinden (in `docs/Bilder`):
  * ```
  * \Bilder html Discovery_bereits_gestartet.png "2 Discovery Terminals gestartet und versucht mit beiden zu lauschen"
  * \Bilder html Noch_nicht_gepullt.png "Noch nicht gepullt bevor man was comittet"
  * \Bilder html User_Falsch_pbergeben.png "Discovery Objekt wollte die User als Liste. Falsch übergeben"
- * \Bilder html
+ * \Bilder html TOML_Downloaden.png "Library wurde nicht heruntergeladen"
  * ```
 
