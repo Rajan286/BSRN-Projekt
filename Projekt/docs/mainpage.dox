@@ -38,3 +38,33 @@
  * Optional: zweite Konfiguration (auch `config.toml`) zum schnellen Wechsel des Handles
  * und Ports (Ordner: User2).
  *
+ * ```bash
+ * #!/bin/bash
+ * gnome-terminal -- bash -c "python3 discovery.py config.toml; exec bash"
+ * gnome-terminal -- bash -c "python3 network.py config.toml; exec bash"
+ * gnome-terminal -- bash -c "python3 ui.py; exec bash"
+ * ```
+ * Ausführbar machen: `chmod +x start_chat.sh`
+ *
+ * @section build Abhängigkeiten & Dokumentation
+ * - `pip install toml`
+ * - Doku: `doxygen Doxyfile`  (HTML in `html/`)
+ *
+* @section lessons Fehler und Lessons Learned
+ * Während der Entwicklung traten folgende Probleme auf:
+ * - **ConfigNotFound**: Konfigurationsdatei nicht gefunden – Lösung: Prüfe den Pfad, nutze `--config`-Parameter oder setze Umgebungsvariable für den richtigen Pfad.
+ * - **FIFOPermission**: Keine Berechtigung für FIFO-Erstellung oder -Zugriff – Lösung: Stelle sicher, dass das Verzeichnis `PIPE_DIR` existiert und du Schreibrechte hast.
+ * - **BrokenPipe**: BrokenPipe-Fehler beim Schreiben in FIFO – Lösung: Vor dem Schreiben prüfen, ob Leser aktiv, oder BrokenPipe mit Retry/Timeout abfangen.
+ * - **UDPBlocked**: UDP-Broadcast blockiert (z.B. macOS Restriktionen) – Lösung: Verwende lokale Broadcast-Adresse (z.B. `192.168.178.255`)
+ * - **PortInUse**: Socket-Bind-Fehler (Port bereits belegt) – Lösung: Nutze `get_available_port()` aus `common.py` oder wähle einen anderen Startport in der Konfiguration.
+ * - **TCPTimeout**: Timeout beim TCP-Verbindungsaufbau oder -Akzeptieren – Lösung: Setze sinnvolle Socket-Timeouts (`settimeout`) und fange `socket.timeout` ab.
+ * - **InvalidCommand**: Unbekannte oder ungültige SLCP-Befehle empfangen – Lösung: Überprüfe Eingaben gegen erlaubte Befehle und logge Warnungen bei ungültigen Nachrichten.
+ * - **PartialImage**: Teilweiser oder unvollständiger Bildempfang – Lösung: Vergleiche empfangene Bytes mit angegebener Größe und verwirf unvollständige Dateien oder bitte um erneute Sendung.
+ * - **SignalHandlerFail**: Signalhandler nicht korrekt registriert – Lösung: Stelle sicher, dass `signal.signal()` vor `start()` aufgerufen wird und verwende `trap` im Startskript.
+ * - **IPCError**: Fehler bei der Interprozesskommunikation via FIFO – Lösung: Fange IPC-Ausnahmen ab, logge Fehler und erstelle fehlende Pipes automatisch.
+ * - **WinError 10488**:jede Socketadresse darf nur jeweils einmal geöffnet werden - Lösung:Jeweiliges Terminal schließen und neu starten
+ * - **Your branch is behind**: Andere Mitglieder haben comittet und man selber hat nicht gepullt - Lösung: git pull im Terminal eingeben.
+ * - **TypeError**: type ´DiscoveryService' is not subscriptable - Lösung: Objekte in Liste angeben.
+ * - **
+ * - **
+ * - **
