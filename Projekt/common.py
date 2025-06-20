@@ -1,40 +1,63 @@
-import os
-import sys
-import toml
-import getpass
-import errno
-import signal
-import logging
-import time
+"""
+@file common.py
+@brief Utility-Funktionen und IPC-/Logging-Infrastruktur für den SLCP-Discovery-Dienst.
 
-# Benutzer- und Verzeichnispfade
-USER = getpass.getuser()
-PIPE_DIR = f"/tmp/slcp_{USER}"
-os.makedirs(PIPE_DIR, exist_ok=True)
+Diese Datei stellt Hilfsfunktionen, globale Konstanten und Pipe-Verwaltung bereit.
+"""
 
-PID_FILE = os.path.join(PIPE_DIR, "slcp_discovery.pid")
+import os  #: Betriebssystemfunktionen
+import sys  #: Systemfunktionen (z. B. Exit)
+import errno  #: Errno-Konstanten für Fehlercodes
+import toml  #: Einlesen von TOML-Konfigurationsdateien
+import signal  #: Signal-Handling (z. B. SIGINT)
+import logging  #: Logging-Framework
+import getpass  #: Ermittlung des aktuellen Benutzers
+import time  #: Zeitfunktionen (sleep)
 
+# Globale Konstanten und Konfiguration
+USER = getpass.getuser()  #: Aktueller Benutzername
+PIPE_DIR = f"/tmp/slcp_{USER}"  #: Verzeichnis für Named Pipes (FIFOs)
+os.makedirs(PIPE_DIR, exist_ok=True)  #: Erstelle das Verzeichnis, falls es nicht existiert
+
+PID_FILE = os.path.join(PIPE_DIR, "slcp_discovery.pid")  #: Pfad zur PID-Datei des Discovery-Dienstes
+
+# Logging konfigurieren
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
-log = logging.getLogger("SLCP")
+log = logging.getLogger("SLCP")  #: Logger für SLCP-Ausgaben
 
-def load_config(config_path="config.toml"):
+
+def load_config(config_path="config.toml"):  # pylint: disable=redefined-outer-name
     """
-    Lädt die Konfigurationsdatei und gibt die DEFAULT-Sektion zurück.
+    @brief Liest die Konfiguration aus einer TOML-Datei.
+
+    Diese Funktion lädt die Datei 'config.toml' und gibt den Abschnitt 'DEFAULT' zurück.
+    @param config_path Pfad zur TOML-Konfigurationsdatei.
+    @return Dictionary mit Werten aus dem Abschnitt 'DEFAULT'.
+    @throws SystemExit Wenn die Datei nicht existiert oder nicht gelesen werden kann.
     """
     if not os.path.exists(config_path):
         log.error(f"Konfigurationsdatei {config_path} fehlt.")
         sys.exit(1)
     with open(config_path, "r") as f:
-        return toml.load(f)['DEFAULT']
+        return toml.load(f).get('DEFAULT', {})
+
 
 def pipe_path(name):
     """
-    Liefert den Pfad zur benannten Pipe (FIFO) für den gegebenen Namen.
+    @brief Bestimmt den Pfad zur FIFO für einen gegebenen Prozessnamen.
+
+    @param name Name der Pipe (z. B. 'ui', 'network').
+    @return Vollständiger Pfad zur Named Pipe im PIPE_DIR.
     """
     return os.path.join(PIPE_DIR, f"{name}.pipe")
+
+
 def create_fifo(name):
     """
-    Erstellt eine benannte Pipe (FIFO), falls sie noch nicht existiert.
+    @brief Erstellt eine Named Pipe (FIFO), falls sie nicht existiert.
+
+    @param name Name der Pipe, die erstellt werden soll.
+    @return Pfad zur erstellten oder bereits existierenden Pipe.
     """
     path = pipe_path(name)
     if not os.path.exists(path):
@@ -45,12 +68,22 @@ def create_fifo(name):
                 raise
     return path
 
+
 def write_to_fifo(name, message):
     """
-    Schreibt eine Nachricht in die benannte Pipe. Versucht es bis zu 5x.
+    @brief Schreibt eine Nachricht in eine Named Pipe.
+
+    Versucht bis zu 5 Mal, non-blocking in die FIFO zu schreiben, und
+    ignoriert Broken-Pipe-Fehler oder fehlende Leser.
+
+    @param name Name der Pipe.
+    @param message Zu schreibende Nachricht (String).
+    @return None
     """
     path = pipe_path(name)
+
     if not os.path.exists(path):
+        # FIFO existiert nicht → ignorieren
         return
 
     for attempt in range(5):
@@ -60,16 +93,20 @@ def write_to_fifo(name, message):
                 fifo.write(message + "\n")
             return
         except OSError as e:
-            if e.errno in (6, 32):  # Kein Leser / Broken pipe
+            if e.errno in (errno.ENXIO, errno.EPIPE):
                 time.sleep(0.2)
             else:
                 log.warning(f"Fehler beim Schreiben in FIFO {path}: {e}")
                 return
-    return
+
 
 def read_from_fifo(name, blocking=True):
     """
-    Liest eine Nachricht aus der benannten Pipe. Optional nicht-blockierend.
+    @brief Liest eine Zeile aus einer Named Pipe.
+
+    @param name Name der Pipe.
+    @param blocking Wenn False, wird non-blocking gelesen.
+    @return Geladene Zeile als String (ohne Newline) oder leer bei Fehler.
     """
     path = pipe_path(name)
     flags = os.O_RDONLY
@@ -83,9 +120,13 @@ def read_from_fifo(name, blocking=True):
         log.warning(f"Fehler beim Lesen aus FIFO {path}: {e}")
         return ""
 
+
 def write_pid(pid_file=PID_FILE):
     """
-    Schreibt die aktuelle PID in eine Datei zur späteren Prozesskontrolle.
+    @brief Schreibt die aktuelle Prozess-ID in eine Datei.
+
+    @param pid_file Pfad zur PID-Datei.
+    @return None
     """
     try:
         with open(pid_file, 'w') as f:
@@ -94,18 +135,27 @@ def write_pid(pid_file=PID_FILE):
         log.error(f"Fehler beim Schreiben der PID-Datei: {e}")
         sys.exit(1)
 
+
 def remove_pid(pid_file=PID_FILE):
     """
-    Entfernt die PID-Datei, z. B. beim Shutdown.
+    @brief Entfernt die PID-Datei des Discovery-Dienstes.
+
+    @param pid_file Pfad zur zu entfernenden PID-Datei.
+    @return None
     """
     try:
         os.remove(pid_file)
     except Exception as e:
         log.warning(f"Fehler beim Entfernen der PID-Datei: {e}")
 
-def graceful_shutdown(signal, frame):
+
+def graceful_shutdown(sig, frame):  # pylint: disable=unused-argument
     """
-    Reagiert auf SIGINT (z. B. STRG+C) mit sauberem Programmende.
+    @brief Signal-Handler für SIGINT, beendet das Programm sauber.
+
+    @param sig Signalnummer (z. B. signal.SIGINT).
+    @param frame Aktueller Stack-Frame (wird nicht genutzt).
+    @return None
     """
     log.info("SIGINT empfangen. Beende Programm.")
     sys.exit(0)
