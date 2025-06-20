@@ -61,7 +61,7 @@
  *
  * Screenshots einbinden (in `docs/Bilder`):
  * ```
- * \Bilder html error_screenshot.png "FIFO-Fehler" (Beispiel)
+ * \Bilder html error_screenshot.png 
  * \Bilder html 
  * \Bilder html
  * \Bilder html
