@@ -38,19 +38,7 @@
  * Optional: zweite Konfiguration (auch `config.toml`) zum schnellen Wechsel des Handles
  * und Ports (Ordner: User2).
  *
- * ```bash
- * #!/bin/bash
- * gnome-terminal -- bash -c "python3 discovery.py config.toml; exec bash"
- * gnome-terminal -- bash -c "python3 network.py config.toml; exec bash"
- * gnome-terminal -- bash -c "python3 ui.py; exec bash"
- * ```
- * Ausführbar machen: `chmod +x start_chat.sh`
- *
- * @section build Abhängigkeiten & Dokumentation
- * - `pip install toml`
- * - Doku: `doxygen Doxyfile`  (HTML in `html/`)
- *
-* @section lessons Fehler und Lessons Learned
+* @section aufgetretene Fehler
  * Während der Entwicklung traten folgende Probleme auf:
  * - **ConfigNotFound**: Konfigurationsdatei nicht gefunden – Lösung: Prüfe den Pfad, nutze `--config`-Parameter oder setze Umgebungsvariable für den richtigen Pfad.
  * - **FIFOPermission**: Keine Berechtigung für FIFO-Erstellung oder -Zugriff – Lösung: Stelle sicher, dass das Verzeichnis `PIPE_DIR` existiert und du Schreibrechte hast.
@@ -68,3 +56,14 @@
  * - **
  * - **
  * - **
+ * - **
+ * - **
+ *
+ * Screenshots einbinden (in `docs/Bilder`):
+ * ```
+ * \Bilder html error_screenshot.png "FIFO-Fehler" (Beispiel)
+ * \Bilder html 
+ * \Bilder html
+ * \Bilder html
+ * ```
+
