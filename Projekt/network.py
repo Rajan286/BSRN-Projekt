@@ -145,6 +145,7 @@ def send_msg(target, text):
     except Exception:
         pass
 
+
 def send_img(target, image_path):
     """
     @brief Sendet eine Bildnachricht (IMG) an einen Peer.
@@ -165,6 +166,7 @@ def send_img(target, image_path):
                 s.sendfile(f)
     except Exception:
         pass
+
 
 def receive_udp():
     """
@@ -294,3 +296,106 @@ def listen_tcp(port, imagepath):
                            [f"{h} {p.ip} {p.port}" for h, p in peers.items()])
                 response = "KNOWNUSERS " + ", ".join(entries) + "\n"
                 conn.sendall(response.encode())
+
+
+def handle_commands(handle, port, imagepath):
+    """
+    @brief Verarbeitet Befehle von der UI-FIFO und ruft entsprechende Funktionen auf.
+
+    Unterstützte Befehle:
+    - msg <target> <text>
+    - img <target> <path>
+    - who, whois <handle>
+    - JOIN <handle> <port>
+    - LEAVE
+    - exit
+
+    @param handle Eigenes Handle.
+    @param port Eigener Port (UDP/TCP).
+    @param imagepath Verzeichnis für Bilder.
+    @return None
+    """
+    global running
+    create_fifo(FIFO_UI_TO_NET)
+    while running:
+        try:
+            cmd = read_from_fifo(FIFO_UI_TO_NET)
+            if not cmd:
+                time.sleep(0.1)
+                continue
+            if cmd.startswith("msg "):
+                _, target, text = cmd.split(" ", 2)
+                send_msg(target, text)
+            elif cmd.startswith("img "):
+                _, target, path = cmd.split(" ", 2)
+                send_img(target, path)
+            elif cmd == "who":
+                send_who()
+            elif cmd.startswith("whois "):
+                _, h = cmd.split(" ", 1)
+                send_whois(h)
+            elif cmd.startswith("JOIN "):
+                _, h, p = cmd.split()
+                send_join(h, int(p))
+            elif cmd == "LEAVE":
+                send_leave(handle)
+            elif cmd == "exit":
+                send_leave(handle)
+                running = False
+                try:
+                    udp_sock.close()
+                except Exception:
+                    pass
+                time.sleep(0.5)
+                os._exit(0)
+        except Exception:
+            pass
+
+
+def cleanup_and_exit(signum, frame):  # pylint: disable=unused-argument
+    """
+    @brief Signal-Handler für SIGINT/SIGTERM, sendet LEAVE und beendet das Programm.
+
+    @param signum Signalnummer.
+    @param frame Aktueller Stack-Frame.
+    @return None
+    """
+    send_leave(config.get("handle", ""))
+    os._exit(0)
+
+# Signal-Handler registrieren
+signal.signal(signal.SIGINT, cleanup_and_exit)
+signal.signal(signal.SIGTERM, cleanup_and_exit)
+
+
+def start_network():
+    """
+    @brief Initialisiert das Netzwerk-Modul und startet Listener-Threads.
+
+    Lädt Konfiguration, baut Sockets, startet Broadcast/Unicast-Listeners
+    und verarbeitet UI-Befehle.
+
+    @return None
+    """
+    global udp_sock, config
+    config = load_config()
+    handle = config["handle"]
+    port = config["port"]
+    imagepath = config.get("imagepath", "images")
+    os.makedirs(imagepath, exist_ok=True)
+    create_fifo(FIFO_NET_TO_UI)
+
+    udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    udp_sock.bind(("", port))
+
+    send_join(handle, port)
+
+    threading.Thread(target=receive_udp, daemon=True).start()
+    threading.Thread(target=listen_tcp, args=(port, imagepath), daemon=True).start()
+    handle_commands(handle, port, imagepath)
+
+
+if __name__ == "__main__":
+    start_network()
