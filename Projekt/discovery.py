@@ -1,6 +1,6 @@
 import threading
 import time
-from common import create_fifo, load_config, write_pid, log
+from common import create_fifo, load_config, read_from_fifo, write_pid, log
 from peer import Peer
 
 FIFO_UI_TO_DISC = "ui_to_discovery"
