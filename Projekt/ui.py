@@ -41,3 +41,66 @@ class ChatUI:
         create_fifo(FIFO_UI_TO_NET)    #: Pipe für UI→Netzwerk
         create_fifo(FIFO_NET_TO_UI)    #: Pipe für Netzwerk→UI
         self.pipe_path = pipe_path(FIFO_NET_TO_UI)  #: Pfad der UI-Leser-Pipe
+        
+    def listen_pipes(self):
+        """
+        @brief Liest dauerhaft Nachrichten aus der FIFO der Netzwerk-Komponente.
+
+        Öffnet die UI-Leser-Pipe und gibt neue Nachrichten in der Konsole aus.
+        """
+        try:
+            with open(self.pipe_path, 'r') as fifo:
+                while True:
+                    msg = fifo.readline().strip()
+                    if msg:
+                        print(msg)
+        except Exception as e:
+            print(f"[UI] Fehler beim Öffnen/Lesen von FIFO: {e}")
+
+    def start(self):
+        """
+        @brief Startet die UI-Hauptschleife und den Pipe-Listener-Thread.
+
+        Zeigt Willkommensnachricht und Eingabe-Prompt an und verarbeitet Nutzerbefehle.
+        """
+        print(f"\n👋 Willkommen im SLCP-Chat, {self.handle}!")
+        print("🔹 Gib `help` ein, um alle Befehle anzuzeigen.\n")
+
+        # Asynchroner Listener-Thread für eingehende Nachrichten
+        threading.Thread(target=self.listen_pipes, daemon=True).start()
+        time.sleep(0.2)  #: Kurze Pause, damit FIFO bereit ist
+
+        # Haupt-Eingabe-Loop
+        while True:
+            try:
+                cmd = input("> ").strip()
+                if cmd == "help":
+                    print("🔧 Verfügbare Befehle:")
+                    print("  join                     - Chat beitreten")
+                    print("  who                      - Liste der Nutzer abfragen")
+                    print("  whois <Handle>           - Details zu Handle anfragen")
+                    print("  msg <User> <Text>        - Textnachricht senden")
+                    print("  img <User> <Pfad>        - Bild senden")
+                    print("  leave                    - Chat verlassen und schließen")
+                elif cmd.startswith(("msg ", "img ", "whois ")):
+                    write_to_fifo(FIFO_UI_TO_NET, cmd)
+                elif cmd == "who":
+                    write_to_fifo(FIFO_UI_TO_NET, "who")
+                elif cmd == "join":
+                    join_msg = f"JOIN {self.handle} {self.port}"
+                    write_to_fifo(FIFO_UI_TO_NET, join_msg)
+                    print("🔁 JOIN gesendet.")
+                elif cmd == "leave":
+                    # Endgültiger Austritt
+                    write_to_fifo(FIFO_UI_TO_NET, "LEAVE")
+                    print("👋 Auf Wiedersehen!")
+                    break
+                else:
+                    print("❌ Unbekannter Befehl. Gib `help` ein für eine Liste.")
+            except KeyboardInterrupt:
+                print("\n⚠️  Mit STRG+C beendet.")
+                break
+
+
+if __name__ == "__main__":
+    ChatUI().start()
