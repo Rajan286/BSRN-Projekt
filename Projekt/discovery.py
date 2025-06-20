@@ -1,5 +1,5 @@
 import threading
-from common import load_config
+from common import create_fifo, load_config, write_pid
 from peer import Peer
 
 FIFO_UI_TO_DISC = "ui_to_discovery"
@@ -20,3 +20,7 @@ class Discovery:
 
         self.listen_ui_thread = threading.Thread(target=self.listen_to_ui, daemon=True)
         self.udp_listener_thread = threading.Thread(target=self.listen_udp_all, daemon=True)
+
+        create_fifo(FIFO_UI_TO_DISC)
+        create_fifo(FIFO_DISC_TO_UI)
+        write_pid()
