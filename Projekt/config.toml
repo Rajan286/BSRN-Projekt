@@ -1,0 +1,28 @@
+# @file config.toml
+# @brief Konfigurationsdatei für das SLCP-Chat-Programm
+#
+# Diese Datei enthält die Parameter für den SLCP-Client und den Discovery-Dienst.
+# Jeder Eintrag ist unter [DEFAULT] abgelegt und wird von der Funktion load_config() gelesen.
+
+[DEFAULT]
+# @param handle    Benutzername des Chat-Clients (Handle)
+#                   Beispiel: "Alice"
+handle = "Alice"
+
+# @param port      Start-Port für den lokalen UDP-Client. Es wird der erstverfügbare Port ab diesem Wert verwendet.
+#                   Beispiel: 5010
+port = 5010
+
+# @param whoisport UDP-Port für Broadcast-Nachrichten des Discovery-Dienstes (WHO/KNOWUSERS).
+#                   Muss für alle Clients gleich sein.
+#                   Beispiel: 4000
+whoisport = 4000
+
+# @param autoreply Automatischer Abwesenheits-Antworttext, wenn der Client eine Nachricht empfängt.
+#                   Leerer String deaktiviert den Abwesenheitsmodus.
+#                   Beispiel: "Ich bin gerade nicht da."
+autoreply = "Ich bin gerade nicht da."
+
+# @param imagepath Verzeichnis, in dem empfangene Bilder abgespeichert werden.
+#                   Beispiel: "images"
+imagepath = "images"
