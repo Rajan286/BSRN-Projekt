@@ -37,6 +37,37 @@
  *
  * Optional: zweite Konfiguration (auch `config.toml`) zum schnellen Wechsel des Handles
  * und Ports (Ordner: User2).
+ * 
+ * @section modules Modulübersicht
+ * - common.py: Helferfunktionen, FIFO-Verwaltung, Logging, PID-Management
+ * - peer.py: Modelliert Peers mit Handle, IP und Port, unterstützt Vergleich/Hash
+ * - discovery.py: Discovery-Dienst (WHO, JOIN, LEAVE, KNOWUSERS)
+ * - network.py: Netzwerkmodul (MSG, IMG, WHOIS, TCP/UDP-Sockets)
+ * - ui.py: Kommandozeilen-UI, zeigt Nachrichten und empfängt Befehle
+ *
+ * @section protocol SLCP-Protokoll
+ * SLCP-Befehle (textbasiert, UTF-8, \n-terminiert):
+ * @li JOIN <Handle> <Port>
+ * @li LEAVE <Handle>
+ * @li WHO
+ * @li KNOWUSERS <Handle1> <IP1> <Port1>,...
+ * @li MSG <Handle> <Text>
+ * @li IMG <Handle> <Size>  (gefolgt von Binärdaten)
+ * @li WHOIS <Handle>  (Antwort: IAM <Handle> <IP> <Port>)
+ *
+ * @section quickstart Schneller Start mit Skript
+ * Startskript `start_chat.sh`:
+ * ```bash
+ * #!/bin/bash
+ * gnome-terminal -- bash -c "python3 discovery.py config.toml; exec bash"
+ * gnome-terminal -- bash -c "python3 network.py config.toml; exec bash"
+ * gnome-terminal -- bash -c "python3 ui.py; exec bash"
+ * ```
+ * Ausführbar machen: `chmod +x start_chat.sh`
+ *
+ * @section build Abhängigkeiten & Dokumentation
+ * - `pip install toml`
+ * - Doku: `doxygen Doxyfile`  (HTML in `html/`)
  *
  * @section aufgetretene Fehler
  * Während der Entwicklung traten folgende Probleme auf:
