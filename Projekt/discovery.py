@@ -32,3 +32,9 @@ class Discovery:
         log.info("Discovery-Dienst gestartet.")
         while True:
             time.sleep(1)
+
+    def listen_to_ui(self):
+        while True:
+            msg = read_from_fifo(FIFO_UI_TO_DISC, blocking=True)
+            if msg == "WHO":
+                self.send_who()
