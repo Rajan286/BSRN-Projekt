@@ -166,3 +166,131 @@ def send_img(target, image_path):
     except Exception:
         pass
 
+def receive_udp():
+    """
+    @brief Listener-Loop für eingehende UDP-Nachrichten (JOIN/LEAVE/IAM/KNOWNUSERS).
+
+    Schreibt entsprechende Events in die UI-FIFO und aktualisiert Peers-Listen.
+
+    @return None
+    """
+    global last_peers_display
+    while running:
+        try:
+            data, addr = udp_sock.recvfrom(1024)
+        except Exception:
+            break
+        msg = data.decode().strip()
+        if msg.startswith("JOIN"):
+            _, handle, port = msg.split()
+            peers[handle] = Peer(handle, addr[0], int(port))
+            write_to_fifo(FIFO_NET_TO_UI, f"🔵 {handle} ist dem Chat beigetreten.")
+        elif msg.startswith("LEAVE"):
+            _, handle = msg.split()
+            peers.pop(handle, None)
+            write_to_fifo(FIFO_NET_TO_UI, f"🚪 {handle} hat den Chat verlassen.")
+        elif msg.startswith("IAM"):
+            _, handle, ip, port = msg.split()
+            peers[handle] = Peer(handle, ip, int(port))
+        elif msg.startswith("KNOWNUSERS"):
+            known = msg[len("KNOWNUSERS "):].split(",")
+            updated = []
+            for entry in known:
+                parts = entry.strip().split()
+                if len(parts) == 3:
+                    h, ip, p = parts
+                    peers[h] = Peer(h, ip, int(p))
+                    updated.append(h)
+            updated_set = set(updated)
+            if updated and updated_set != last_peers_display:
+                write_to_fifo(FIFO_NET_TO_UI, f"✅ Bekannte Nutzer: {', '.join(updated)}")
+                last_peers_display = updated_set
+            elif not updated:
+                write_to_fifo(FIFO_NET_TO_UI, "⚠️ Keine bekannten Nutzer empfangen.")
+
+
+def listen_tcp(port, imagepath):
+    """
+    @brief TCP-Server-Loop für Unicast-Kommunikation (MSG, IMG, WHOIS, JOIN, LEAVE, WHO).
+
+    @param port Eigener TCP-Port (gleich UDP-Port).
+    @param imagepath Verzeichnis zum Speichern empfangener Bilder.
+    @return None
+    """
+    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srv.settimeout(1.0)
+    srv.bind(("", port))
+    srv.listen()
+    while running:
+        try:
+            conn, addr = srv.accept()
+        except socket.timeout:
+            continue
+        except Exception:
+            break
+        with conn:
+            data = b""
+            while not data.endswith(b"\n"):
+                chunk = conn.recv(1)
+                if not chunk:
+                    break
+                data += chunk
+            data = data.decode().strip()
+
+            if data.startswith("MSG"):
+                _, sender, text = data.split(" ", 2)
+                write_to_fifo(FIFO_NET_TO_UI, f"[{sender}] {text}")
+                if sender not in peers:
+                    peers[sender] = Peer(sender, addr[0], sys.maxsize)
+                auto = config.get("autoreply", "").strip()
+                if auto and "[AutoReply]" not in text and sender != config["handle"]:
+                    send_msg(sender, f"[AutoReply] {auto}")
+
+            elif data.startswith("IMG"):
+                try:
+                    _, sender, size = data.split()
+                    size = int(size)
+                    os.makedirs(imagepath, exist_ok=True)
+                    filepath = os.path.join(imagepath, f"{sender}_{int(time.time())}.jpg")
+                    with open(filepath, "wb") as f:
+                        received = 0
+                        while received < size:
+                            chunk = conn.recv(min(4096, size - received))
+                            if not chunk:
+                                break
+                            f.write(chunk)
+                            received += len(chunk)
+                    if received == size:
+                        write_to_fifo(FIFO_NET_TO_UI, f"[{sender}] 📷 Bild ({size} Bytes) gespeichert: {filepath}")
+                    else:
+                        write_to_fifo(FIFO_NET_TO_UI, f"[{sender}] ⚠️ Bild unvollständig empfangen ({received}/{size} Bytes): {filepath}")
+                    if sender not in peers:
+                        peers[sender] = Peer(sender, addr[0], sys.maxsize)
+                    auto = config.get("autoreply", "").strip()
+                    if auto and sender != config["handle"]:
+                        send_msg(sender, f"[AutoReply] {auto}")
+                except Exception:
+                    write_to_fifo(FIFO_NET_TO_UI, f"❌ Fehler beim Empfang des Bilds.")
+
+            elif data.startswith("WHOIS"):
+                _, target = data.split()
+                if target == config["handle"]:
+                    local_ip = get_own_ip(addr[0])
+                    response = f"IAM {config['handle']} {local_ip} {config['port']}\n"
+                    conn.sendall(response.encode())
+
+            elif data.startswith("JOIN"):
+                _, handle, port = data.split()
+                write_to_fifo(FIFO_NET_TO_UI, f"🔵 {handle} ist dem Chat beigetreten.")
+
+            elif data.startswith("LEAVE"):
+                _, handle = data.split()
+                write_to_fifo(FIFO_NET_TO_UI, f"🚪 {handle} hat den Chat verlassen.")
+                peers.pop(handle, None)
+
+            elif data.startswith("WHO"):
+                local_ip = get_own_ip(addr[0])
+                entries = ([f"{config['handle']} {local_ip} {config['port']}"] +
+                           [f"{h} {p.ip} {p.port}" for h, p in peers.items()])
+                response = "KNOWNUSERS " + ", ".join(entries) + "\n"
+                conn.sendall(response.encode())
