@@ -38,7 +38,7 @@
  * Optional: zweite Konfiguration (auch `config.toml`) zum schnellen Wechsel des Handles
  * und Ports (Ordner: User2).
  *
-* @section aufgetretene Fehler
+ * @section aufgetretene Fehler
  * Während der Entwicklung traten folgende Probleme auf:
  * - **ConfigNotFound**: Konfigurationsdatei nicht gefunden – Lösung: Prüfe den Pfad, nutze `--config`-Parameter oder setze Umgebungsvariable für den richtigen Pfad.
  * - **FIFOPermission**: Keine Berechtigung für FIFO-Erstellung oder -Zugriff – Lösung: Stelle sicher, dass das Verzeichnis `PIPE_DIR` existiert und du Schreibrechte hast.
@@ -61,4 +61,54 @@
  * \Bilder html User_Falsch_pbergeben.png "Discovery Objekt wollte die User als Liste. Falsch übergeben"
  * \Bilder html TOML_Downloaden.png "Library wurde nicht heruntergeladen"
  * ```
+ *
+ * @section flow Flussdiagramm der Hosts
+ * Ablauf auf zwei Hosts im selben WLAN:
+ * - Host A:
+ *   1. `python3 discovery.py config.toml` (Terminal 1)
+ *   2. `python3 network.py config.toml`   (Terminal 2)
+ *   3. `python3 ui.py`                   (Terminal 3)
+ * - Host B analog mit seiner eigenen `config.toml`
+ *
+ * Kommunikation:
+ * - UDP-Broadcast WHO → alle Discovery-Dienste
+ * - UDP-Unicast KNOWUSERS → an anfragenden Host
+ * - TCP-Unicast MSG/IMG/WHOIS → zwischen Peers
+ * - FIFO UI→Net, FIFO Net→UI für IPC
+ *
+ * @dot
+ * digraph SLCP2Hosts {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded, fontname="Helvetica"];
+ *   subgraph cluster_A {
+ *     label="Host A"; style=dashed;
+ *     A1 [label="Terminal 1:\npython3 discovery.py config.toml"];
+ *     A2 [label="Terminal 2:\npython3 network.py config.toml"];
+ *     A3 [label="Terminal 3:\npython3 ui.py"];
+ *   }
+ *   subgraph cluster_B {
+ *     label="Host B"; style=dashed;
+ *     B1 [label="Terminal 1:\npython3 discovery.py config.toml"];
+ *     B2 [label="Terminal 2:\npython3 network.py config.toml"];
+ *     B3 [label="Terminal 3:\npython3 ui.py"];
+ *   }
+ *   A1 -> B1 [label="UDP Broadcast WHO", arrowhead=none];
+ *   B1 -> A1 [label="UDP Reply KNOWUSERS", style=dotted, arrowhead=none];
+ *   A2 -> B2 [label="TCP MSG/IMG/WHOIS"];
+ *   B2 -> A2 [label="TCP MSG/IMG/WHOIS"];
+ *   A3 -> A2 [label="FIFO UI→Net"];
+ *   A2 -> A3 [label="FIFO Net→UI"];
+ *   B3 -> B2 [label="FIFO UI→Net"];
+ *   B2 -> B3 [label="FIFO Net→UI"];
+ * }
+ *
+ * @section authors Autoren
+ * - Rajan Kakkar (1538362)
+ * - Zufar Reyal (1417498)
+ * - Soufian Kenbouche (1574324)
+ * - Bileya Karimou (1570665)
+ * - Yasmin Hammouni (1514652)
+ * @enddot
+ */
+
 
