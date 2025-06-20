@@ -1,0 +1,40 @@
+/**
+ * @mainpage SLCP-Chat Programm – Detaillierte Dokumentation
+ *
+ * @section intro Einführung
+ * Dieses Projekt implementiert einen dezentralen Chat-Client basierend auf
+ * dem Simple Local Chat Protocol (SLCP). Ziel ist eine Peer-to-Peer-Kommunikation
+ * ohne zentralen Server, die Text- und Bildnachrichten im lokalen Netzwerk ermöglicht.
+ *
+ * @section goals Projektziele
+ * - Vollständige Umsetzung des SLCP-Protokolls: JOIN, LEAVE, WHO, KNOWUSERS, MSG, IMG, WHOIS
+ * - Dezentrale Discovery mittels Broadcast und lokaler Discovery-Dienste
+ * - Klare Trennung der Funktionalität in drei Prozesse:
+ *   - Benutzeroberfläche (ui.py)
+ *   - Netzwerk-Modul (network.py, peer.py)
+ *   - Discovery-Dienst (discovery.py)
+ * - Konfiguration per TOML-Datei, editierbar über CLI
+ * - Robustheit: Wiederverwendbarer Port-Finder, Named Pipes (FIFO), Signal-Handling
+ *
+ * @section arch Architektur
+ * Die Software-Architektur besteht aus drei Hauptkomponenten:
+ * - Discovery-Dienst: Beantwortet WHO-Anfragen, verwaltet aktive Peers, kommuniziert über UDP
+ * - Netzwerk-Modul: Sendet/empfängt SLCP-Nachrichten per UDP/TCP, verarbeitet JOIN/LEAVE/MSG/IMG/WHOIS
+ * - Benutzeroberfläche: CLI-Interface, leitet Befehle an Netzwerk-Modul weiter und zeigt Nachrichten
+ *
+ * Kommunikation erfolgt über:
+ * - UDP-Broadcast (entweder 255.255.255.255 oder lokale Broadcast-Adresse, z.B. 192.168.178.255:whoisport) für Discovery
+ * - TCP-Unicast für Direktnachrichten (MSG, IMG) und WHOIS
+ * - Named Pipes (FIFO) für IPC zwischen UI und Netzwerkmodul
+ *
+ * @section config Konfiguration
+ * Die zentrale Konfigurationsdatei `config.toml` enthält folgende Parameter:
+ * @li handle    Benutzername des Clients
+ * @li port      Start-Port für lokale UDP-/TCP-Sockets
+ * @li whoisport UDP-Port für Discovery-Broadcasts
+ * @li autoreply Automatische Abwesenheits-Antwort (leer = deaktiviert)
+ * @li imagepath Verzeichnis zum Speichern empfangener Bilder
+ *
+ * Optional: zweite Konfiguration (auch `config.toml`) zum schnellen Wechsel des Handles
+ * und Ports (Ordner: User2).
+ *
