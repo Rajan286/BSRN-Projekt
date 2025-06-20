@@ -61,9 +61,9 @@
  *
  * Screenshots einbinden (in `docs/Bilder`):
  * ```
- * \Bilder html error_screenshot.png 
- * \Bilder html 
- * \Bilder html
+ * \Bilder html Discovery_bereits_gestartet.png "2 Discovery Terminals gestartet und versucht mit beiden zu lauschen"
+ * \Bilder html Noch_nicht_gepullt.png "Noch nicht gepullt bevor man was comittet"
+ * \Bilder html User_Falsch_pbergeben.png "Discovery Objekt wollte die User als Liste. Falsch übergeben"
  * \Bilder html
  * ```
 
