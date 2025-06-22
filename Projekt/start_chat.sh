@@ -40,6 +40,6 @@ sleep 1  # Warten, bis Netzwerk-Modul bereit ist
 
 # 3) UI starten (Vordergrund)
 echo "🟢 Starte Chat-UI..."
-python3 ui.pyg
+python3 ui.py
 
 # Sobald UI beendet wird, wird cleanup durch den trap-Handler aufgerufen
