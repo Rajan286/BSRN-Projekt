@@ -1,0 +1,103 @@
+\chapter{SLCP-\/\+Chat Programm – Detaillierte Dokumentation }
+\hypertarget{index}{}\label{index}\index{SLCP-\/Chat Programm – Detaillierte Dokumentation@{SLCP-\/Chat Programm – Detaillierte Dokumentation}}
+\hypertarget{index_intro}{}\doxysection{\texorpdfstring{Einführung}{Einführung}}\label{index_intro}
+Dieses Projekt implementiert einen dezentralen Chat-\/\+Client basierend auf dem Simple Local Chat Protocol (SLCP). Ziel ist eine Peer-\/to-\/\+Peer-\/\+Kommunikation ohne zentralen Server, die Text-\/ und Bildnachrichten im lokalen Netzwerk ermöglicht.\hypertarget{index_goals}{}\doxysection{\texorpdfstring{Projektziele}{Projektziele}}\label{index_goals}
+
+\begin{DoxyItemize}
+\item Vollständige Umsetzung des SLCP-\/\+Protokolls\+: JOIN, LEAVE, WHO, KNOWUSERS, MSG, IMG, WHOIS
+\item Dezentrale Discovery mittels Broadcast und lokaler Discovery-\/\+Dienste
+\item Klare Trennung der Funktionalität in drei Prozesse\+:
+\begin{DoxyItemize}
+\item Benutzeroberfläche (ui.\+py)
+\item Netzwerk-\/\+Modul (network.\+py, peer.\+py)
+\item Discovery-\/\+Dienst (discovery.\+py)
+\end{DoxyItemize}
+\item Konfiguration per TOML-\/\+Datei, editierbar über CLI
+\item Robustheit\+: Wiederverwendbarer Port-\/\+Finder, Named Pipes (FIFO), Signal-\/\+Handling
+\end{DoxyItemize}\hypertarget{index_arch}{}\doxysection{\texorpdfstring{Architektur}{Architektur}}\label{index_arch}
+Die Software-\/\+Architektur besteht aus drei Hauptkomponenten\+:
+\begin{DoxyItemize}
+\item Discovery-\/\+Dienst\+: Beantwortet WHO-\/\+Anfragen, verwaltet aktive Peers, kommuniziert über UDP
+\item Netzwerk-\/\+Modul\+: Sendet/empfängt SLCP-\/\+Nachrichten per UDP/\+TCP, verarbeitet JOIN/\+LEAVE/\+MSG/\+IMG/\+WHOIS
+\item Benutzeroberfläche\+: CLI-\/\+Interface, leitet Befehle an Netzwerk-\/\+Modul weiter und zeigt Nachrichten
+\end{DoxyItemize}
+
+Kommunikation erfolgt über\+:
+\begin{DoxyItemize}
+\item UDP-\/\+Broadcast (entweder 255.\+255.\+255.\+255 oder lokale Broadcast-\/\+Adresse, z.\+B. 192.\+168.\+178.\+255\+:whoisport) für Discovery
+\item TCP-\/\+Unicast für Direktnachrichten (MSG, IMG) und WHOIS
+\item Named Pipes (FIFO) für IPC zwischen UI und Netzwerkmodul
+\end{DoxyItemize}\hypertarget{index_config}{}\doxysection{\texorpdfstring{Konfiguration}{Konfiguration}}\label{index_config}
+Die zentrale Konfigurationsdatei {\ttfamily config.\+toml} enthält folgende Parameter\+: \begin{DoxyItemize}
+\item handle Benutzername des Clients \item port Start-\/\+Port für lokale UDP-\//\+TCP-\/\+Sockets \item whoisport UDP-\/\+Port für Discovery-\/\+Broadcasts \item autoreply Automatische Abwesenheits-\/\+Antwort (leer = deaktiviert) \item imagepath Verzeichnis zum Speichern empfangener Bilder\end{DoxyItemize}
+Optional\+: zweite Konfiguration ({\ttfamily config2.\+toml}) zum schnellen Wechsel des Handles und Ports (Ordner\+: User2).\hypertarget{index_modules}{}\doxysection{\texorpdfstring{Modulübersicht}{Modulübersicht}}\label{index_modules}
+
+\begin{DoxyItemize}
+\item common.\+py\+: Helferfunktionen, FIFO-\/\+Verwaltung, Logging, PID-\/\+Management
+\item peer.\+py\+: Modelliert Peers mit Handle, IP und Port, unterstützt Vergleich/\+Hash
+\item discovery.\+py\+: Discovery-\/\+Dienst (WHO, JOIN, LEAVE, KNOWUSERS)
+\item network.\+py\+: Netzwerkmodul (MSG, IMG, WHOIS, TCP/\+UDP-\/\+Sockets)
+\item ui.\+py\+: Kommandozeilen-\/\+UI, zeigt Nachrichten und empfängt Befehle
+\end{DoxyItemize}\hypertarget{index_protocol}{}\doxysection{\texorpdfstring{SLCP-\/\+Protokoll}{SLCP-\/\+Protokoll}}\label{index_protocol}
+SLCP-\/\+Befehle (textbasiert, UTF-\/8, ~\newline
+-\/terminiert)\+: \begin{DoxyItemize}
+\item JOIN $<$\+Handle$>$ $<$\+Port$>$ \item LEAVE $<$\+Handle$>$ \item WHO \item KNOWUSERS $<$\+Handle1$>$ $<$\+IP1$>$ $<$\+Port1$>$,... \item MSG $<$\+Handle$>$ $<$\+Text$>$ \item IMG $<$\+Handle$>$ $<$\+Size$>$ (gefolgt von Binärdaten) \item WHOIS $<$\+Handle$>$ (Antwort\+: IAM $<$\+Handle$>$ $<$\+IP$>$ $<$\+Port$>$)\end{DoxyItemize}
+\hypertarget{index_quickstart}{}\doxysection{\texorpdfstring{Schneller Start mit Skript}{Schneller Start mit Skript}}\label{index_quickstart}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#!/bin/bash}
+\DoxyCodeLine{gnome-\/terminal\ -\/-\/\ bash\ -\/c\ "{}python3\ discovery.py\ config.toml;\ exec\ bash"{}}
+\DoxyCodeLine{gnome-\/terminal\ -\/-\/\ bash\ -\/c\ "{}python3\ network.py\ config.toml;\ exec\ bash"{}}
+\DoxyCodeLine{gnome-\/terminal\ -\/-\/\ bash\ -\/c\ "{}python3\ ui.py;\ exec\ bash"{}}
+
+\end{DoxyCode}
+ Ausführbar\+: {\ttfamily chmod +x start\+\_\+chat.\+sh}\hypertarget{index_build}{}\doxysection{\texorpdfstring{Abhängigkeiten \& Dokumentation}{Abhängigkeiten \& Dokumentation}}\label{index_build}
+
+\begin{DoxyItemize}
+\item {\ttfamily pip install toml}
+\item Dokumentation generieren\+: {\ttfamily doxygen Doxyfile} (HTML in {\ttfamily html/})
+\end{DoxyItemize}\hypertarget{index_aufgetretene}{}\doxysection{\texorpdfstring{Fehler}{Fehler}}\label{index_aufgetretene}
+
+\begin{DoxyItemize}
+\item {\bfseries{Config\+Not\+Found}}\+: Konfigurationsdatei nicht gefunden – Lösung\+: Pfad prüfen oder {\ttfamily -\/-\/config}-\/Parameter setzen.
+\item {\bfseries{FIFOPermission}}\+: Keine Berechtigung für FIFO-\/\+Erstellung oder -\/Zugriff – Lösung\+: Schreibrechte auf {\ttfamily PIPE\+\_\+\+DIR} sicherstellen.
+\item {\bfseries{Broken\+Pipe}}\+: Broken\+Pipe-\/\+Fehler beim Schreiben in FIFO – Lösung\+: Retry/\+Timeout implementieren.
+\item {\bfseries{UDPBlocked}}\+: UDP-\/\+Broadcast blockiert (z.\+B. mac\+OS Restriktionen) – Lösung\+: lokale Broadcast-\/\+Adresse (z.\+B. {\ttfamily 192.\+168.\+178.\+255}) verwenden.
+\item {\bfseries{Port\+In\+Use}}\+: Socket-\/\+Bind-\/\+Fehler (Port belegt) – Lösung\+: anderen Start-\/\+Port konfigurieren.
+\item {\bfseries{TCPTimeout}}\+: Timeout beim TCP-\/\+Verbindungsaufbau oder -\/Akzeptieren – Lösung\+: Socket-\/\+Timeouts setzen und {\ttfamily socket.\+timeout} abfangen.
+\item {\bfseries{Invalid\+Command}}\+: Unbekannter SLCP-\/\+Befehl – Lösung\+: Syntax validieren und Warnungen loggen.
+\item {\bfseries{Partial\+Image}}\+: Teilweiser Bildempfang – Lösung\+: empfangene Bytes mit {\ttfamily Size} abgleichen.
+\item {\bfseries{Signal\+Handler\+Fail}}\+: Signalhandler nicht registriert – Lösung\+: {\ttfamily signal.\+signal()} vor {\ttfamily start()} aufrufen.
+\item {\bfseries{IPCError}}\+: Fehler bei IPC via FIFO – Lösung\+: Ausnahmen abfangen und fehlende Pipes automatisch anlegen.
+\item {\bfseries{Win\+Error 10488}}\+: Socketadresse bereits genutzt – Lösung\+: Terminal neu starten.
+\item {\bfseries{Your branch is behind}}\+: Branch veraltet – Lösung\+: {\ttfamily git pull} ausführen.
+\item {\bfseries{Type\+Error}}\+: \textquotesingle{}Discovery\+Service\textquotesingle{} is not subscriptable – Lösung\+: Objekte als Liste übergeben.
+\end{DoxyItemize}
+
+Screenshots einbinden (in {\ttfamily docs/\+Bilder})\+:    \hypertarget{index_flow}{}\doxysection{\texorpdfstring{Flussdiagramm der Hosts}{Flussdiagramm der Hosts}}\label{index_flow}
+Ablauf auf zwei Hosts im selben WLAN\+:
+\begin{DoxyItemize}
+\item Host A\+: startet discovery.\+py, network.\+py, ui.\+py
+\item Host B\+: ebenso, mit eigener config
+\end{DoxyItemize}
+
+Kommunikation\+:
+\begin{DoxyItemize}
+\item UDP-\/\+Broadcast WHO → Discovery
+\item UDP-\/\+Reply KNOWUSERS
+\item TCP-\/\+Unicast für MSG/\+IMG/\+WHOIS
+\item FIFO für UI-\/\+Netzwerkkommunikation
+\end{DoxyItemize}\hypertarget{index_flow}{}\doxysection{\texorpdfstring{Flussdiagramm der Hosts}{Flussdiagramm der Hosts}}\label{index_flow}
+
+\begin{DoxyImageNoCaption}
+  \mbox{\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{dot_inline_dotgraph_1}}
+\end{DoxyImageNoCaption}
+\hypertarget{index_authors}{}\doxysection{\texorpdfstring{Autoren}{Autoren}}\label{index_authors}
+
+\begin{DoxyItemize}
+\item Rajan Kakkar (1538362)
+\item Zufar Reyal (1417498)
+\item Soufian Kenbouche (1574324)
+\item Bileya Karimou (1570665)
+\item Yasmin Hammouni (1514652) 
+\end{DoxyItemize}

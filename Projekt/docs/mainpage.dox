@@ -100,6 +100,7 @@
  * - TCP-Unicast für MSG/IMG/WHOIS
  * - FIFO für UI-Netzwerkkommunikation
  *
+ * @section flow Flussdiagramm der Hosts
  * @dot
  * digraph SLCP2Hosts {
  *   rankdir=LR;
@@ -116,8 +117,10 @@
  *     B2 [label="Terminal 2:\npython3 network.py config2.toml"];
  *     B3 [label="Terminal 3:\npython3 ui.py"];
  *   }
- *   A1 -> B1 [label="UDP: WHO", arrowhead=none];
- *   B1 -> A1 [label="UDP: KNOWUSERS", style=dotted, arrowhead=none];
+ *   A2 -> A1 [label="UDP: WHO", arrowhead=none];
+ *   A1 -> A2 [label="UDP: KNOWUSERS", style=dotted, arrowhead=none];
+ *   B2 -> B1 [label="UDP: WHO", arrowhead=none];
+ *   B1 -> B2 [label="UDP: KNOWUSERS", style=dotted, arrowhead=none];
  *   A2 -> B2 [label="TCP: MSG/IMG/WHOIS"];
  *   B2 -> A2 [label="TCP: MSG/IMG/WHOIS"];
  *   A3 -> A2 [label="FIFO UI→Net"];
