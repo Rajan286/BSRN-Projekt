@@ -32,6 +32,9 @@ udp_sock = None  #: UDP-Socket für Broadcasts
 config = {}  #: Geladene Konfiguration
 running = True  #: Steuerungsschalter für Listener-Loops
 last_peers_display = set()  #: Merkt sich zuletzt angezeigte Peers
+left_peers = set() # Liste von Peers die weg geleaved sind
+peer_join_time = {} # Zeitpunkt des beitritts 
+
 
 
 def get_own_ip(peer_ip="8.8.8.8"):
@@ -167,7 +170,6 @@ def send_img(target, image_path):
     except Exception:
         pass
 
-
 def receive_udp():
     """
     @brief Listener-Loop für eingehende UDP-Nachrichten (JOIN/LEAVE/IAM/KNOWNUSERS).
@@ -185,12 +187,23 @@ def receive_udp():
         msg = data.decode().strip()
         if msg.startswith("JOIN"):
             _, handle, port = msg.split()
-            peers[handle] = Peer(handle, addr[0], int(port))
-            write_to_fifo(FIFO_NET_TO_UI, f"🔵 {handle} ist dem Chat beigetreten.")
+            # Nur verarbeiten, wenn Peer noch nicht bekannt und nicht als "left" markiert wurde
+            if handle not in peers and handle not in left_peers:
+                peers[handle] = Peer(handle, addr[0], int(port))
+                peer_join_time[handle] = time.time()  # Zeitpunkt merken
+                write_to_fifo(FIFO_NET_TO_UI, f"🔵 {handle} ist dem Chat beigetreten.")
         elif msg.startswith("LEAVE"):
             _, handle = msg.split()
-            peers.pop(handle, None)
-            write_to_fifo(FIFO_NET_TO_UI, f"🚪 {handle} hat den Chat verlassen.")
+            now = time.time()
+            # Nur verarbeiten, wenn Peer wirklich bekannt und noch nicht als "verlassen" gemeldet wurde
+            if handle in peers and handle not in left_peers:
+                joined_at = peer_join_time.get(handle, 0)
+                # Zeitfilter, ignoriere 2 Sekunden nach JOIN unerwartete leave signale
+                if now - joined_at > 2:
+                    peers.pop(handle, None)
+                    left_peers.add(handle)
+                    peer_join_time.pop(handle, None)
+                    write_to_fifo(FIFO_NET_TO_UI, f"🚪 {handle} hat den Chat verlassen.")
         elif msg.startswith("IAM"):
             _, handle, ip, port = msg.split()
             peers[handle] = Peer(handle, ip, int(port))
@@ -201,15 +214,16 @@ def receive_udp():
                 parts = entry.strip().split()
                 if len(parts) == 3:
                     h, ip, p = parts
-                    peers[h] = Peer(h, ip, int(p))
-                    updated.append(h)
+                    # **Nicht wieder aufnehmen, wenn Peer schon als "left" bekannt ist**
+                    if h not in left_peers:
+                        peers[h] = Peer(h, ip, int(p))
+                        updated.append(h)
             updated_set = set(updated)
             if updated and updated_set != last_peers_display:
                 write_to_fifo(FIFO_NET_TO_UI, f"✅ Bekannte Nutzer: {', '.join(updated)}")
                 last_peers_display = updated_set
             elif not updated:
                 write_to_fifo(FIFO_NET_TO_UI, "⚠️ Keine bekannten Nutzer empfangen.")
-
 
 def listen_tcp(port, imagepath):
     """
@@ -283,12 +297,23 @@ def listen_tcp(port, imagepath):
 
             elif data.startswith("JOIN"):
                 _, handle, port = data.split()
-                write_to_fifo(FIFO_NET_TO_UI, f"🔵 {handle} ist dem Chat beigetreten.")
+                # Nur verarbeiten, wenn Peer noch nicht bekannt
+                if handle not in peers:
+                    peers[handle] = Peer(handle, addr[0], int(port))
+                    peer_join_time[handle] = time.time()  # Zeitpunkt merken
+                    write_to_fifo(FIFO_NET_TO_UI, f"🔵 {handle} ist dem Chat beigetreten.")
 
             elif data.startswith("LEAVE"):
                 _, handle = data.split()
-                write_to_fifo(FIFO_NET_TO_UI, f"🚪 {handle} hat den Chat verlassen.")
-                peers.pop(handle, None)
+                now = time.time()
+                # Nur verarbeiten, wenn Peer wirklich bekannt und noch nicht als "verlassen" gemeldet wurde in left peers
+                if handle in peers and handle not in left_peers:
+                    joined_at = peer_join_time.get(handle, 0)
+                    if now - joined_at > 2:  # Zeitfilter (2 Sekunden)
+                        peers.pop(handle, None)
+                        left_peers.add(handle)
+                        peer_join_time.pop(handle, None)
+                        write_to_fifo(FIFO_NET_TO_UI, f"🚪 {handle} hat den Chat verlassen.")
 
             elif data.startswith("WHO"):
                 local_ip = get_own_ip(addr[0])
@@ -296,6 +321,7 @@ def listen_tcp(port, imagepath):
                            [f"{h} {p.ip} {p.port}" for h, p in peers.items()])
                 response = "KNOWNUSERS " + ", ".join(entries) + "\n"
                 conn.sendall(response.encode())
+
 
 
 def handle_commands(handle, port, imagepath):
@@ -308,7 +334,7 @@ def handle_commands(handle, port, imagepath):
     - who, whois <handle>
     - JOIN <handle> <port>
     - LEAVE
-    - exit
+
 
     @param handle Eigenes Handle.
     @param port Eigener Port (UDP/TCP).
@@ -337,9 +363,8 @@ def handle_commands(handle, port, imagepath):
             elif cmd.startswith("JOIN "):
                 _, h, p = cmd.split()
                 send_join(h, int(p))
+                
             elif cmd == "LEAVE":
-                send_leave(handle)
-            elif cmd == "exit":
                 send_leave(handle)
                 running = False
                 try:
@@ -389,6 +414,11 @@ def start_network():
     udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     udp_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     udp_sock.bind(("", port))
+    
+    #Damit User1 (Alice) überhaupt im Netzwerk sichtbar wird, muss sie automatisch ein JOIN beim Start senden.
+    #Da User 2 (Bob) später startet, reicht es, wenn Bob das JOIN manuell über das UI eingibt.
+    # Für User 2 wird send_join() in start_network nicht automatisch aufgerufen,
+    # damit keine doppelten JOIN-Nachrichten im Netzwerk auftreten.
 
     send_join(handle, port)
 
