@@ -83,11 +83,7 @@
  * - **Your branch is behind**: Branch veraltet – Lösung: `git pull` ausführen.
  * - **TypeError**: 'DiscoveryService' is not subscriptable – Lösung: Objekte als Liste übergeben.
  *
- * Screenshots einbinden (in `docs/Bilder`):
- * \image html Discovery_bereits_gestartet.png "Zwei Discovery-Instanzen"
- * \image html Noch_nicht_gepullt.png "Nicht gepullt vor Commit"
- * \image html User_Falsch_übergeben.png "Falsche Listenübergabe"
- * \image html TOML_Downloaden.png "Library fehlte"
+ * Screenshots einiger aufgetretener Fehler befinden sich in (`docs/image`)
  *
  * @section flow Flussdiagramm der Hosts
  * Ablauf auf zwei Hosts im selben WLAN:

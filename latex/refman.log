@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.22)  22 JUN 2025 16:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.22)  22 JUN 2025 16:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -736,6 +736,42 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 
 LaTeX Warning: Label `index_flow' multiply defined.
 
+
+LaTeX Warning: Label `doc-var-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-var-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-func-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-var-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-var-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-func-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-constructors' multiply defined.
+
+
+LaTeX Warning: Label `doc-func-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-variable-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-constructors' multiply defined.
+
+
+LaTeX Warning: Label `doc-func-members' multiply defined.
+
+
+LaTeX Warning: Label `doc-variable-members' multiply defined.
+
 )
 \openout1 = `refman.aux'.
 
@@ -872,9 +908,11 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 
 [1]
 
-[2
+[2]
 
-]
+[3]
+
+[4]
 Package hyperref Info: Option `pageanchor' set `true' on input line 233.
  (./index.tex
 Chapter 1.
@@ -907,6 +945,7 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 
 [1
 
+
 ]
 
 [2]
@@ -916,7 +955,7 @@ Package textcomp Warning: Symbol \textrightarrow not provided by
 (textcomp)                Default family used instead on input line 86.
 
  <./dot_inline_dotgraph_1.pdf>
-<dot_inline_dotgraph_1.pdf, id=111, 1304.875pt x 372.39125pt>
+<dot_inline_dotgraph_1.pdf, id=741, 1304.875pt x 372.39125pt>
 File: dot_inline_dotgraph_1.pdf Graphic file (type pdf)
 <use dot_inline_dotgraph_1.pdf>
 Package pdftex.def Info: dot_inline_dotgraph_1.pdf  used on input line 93.
@@ -932,17 +971,121 @@ has been already used, duplicate ignored
 l.94 \end{DoxyImageNoCaption}
                              ])
 
-[4] (./refman.ind
+[4]
+Chapter 2.
+(./namespaces.tex)
+
+[5
+
+]
+
+[6
+
+]
+Chapter 3.
+(./annotated.tex)
+
+[7]
+
+[8
+
+]
+Chapter 4.
+(./files.tex)
+
+[9]
+
+[10
+
+]
+Chapter 5.
+(./namespacecommon.tex
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 43.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 44.
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 58.
+
+
+[11]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 81.
+
+
+[12]
+
+[13]) (./namespaceconfig.tex
+
+[14]) (./namespacediscovery.tex) (./namespacenetwork.tex
+
+[15]
+
+[16]
+
+[17]
+
+[18]
+
+[19]) (./namespacepeer.tex) (./namespaceui.tex
+
+[20])
+
+[21]
+
+[22
+
+]
+Chapter 6.
+(./classui_1_1_chat_u_i.tex
+
+[23]) (./classdiscovery_1_1_discovery.tex
+
+[24]
+
+[25]) (./classpeer_1_1_peer.tex
+
+[26]
+
+[27]
+
+[28])
+
+[29]
+
+[30
+
+]
+Chapter 7.
+(./common_8py.tex) (./config_8toml.tex) (./discovery_8py.tex
+
+[31]) (./mainpage_8dox.tex) (./network_8py.tex) (./peer_8py.tex
+
+[32]) (./ui_8py.tex)
+
+[33]
+
+[34
+
+] (./refman.ind
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 22.39185pt on input line 1.
 
 
 
 
-[5
+[35
+
+
+]
 
 
 
+[36]
+
+
+
+[37
 
 ]) (./refman.aux)
  ***********
@@ -954,27 +1097,30 @@ L3 programming layer <2025-01-18>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: CADFE9A2B19DA227A369AD63720CF7B5;2314.
+(rerunfilecheck)             Checksum: D829FBECEBA11A12F09041C9156C3F01;24472.
  ) 
 Here is how much of TeX's memory you used:
- 18052 strings out of 473190
- 288303 string characters out of 5715800
- 717857 words of memory out of 5000000
- 40969 multiletter control sequences out of 15000+600000
- 592248 words of font info for 75 fonts, out of 8000000 for 9000
+ 18737 strings out of 473190
+ 306018 string characters out of 5715800
+ 740872 words of memory out of 5000000
+ 41312 multiletter control sequences out of 15000+600000
+ 601985 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,15n,117p,427b,557s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,15n,117p,427b,565s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></u
-sr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/t
-exlive/2025/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/
-2025/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on refman.pdf (9 pages, 118923 bytes).
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
+usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/local/texlive/202
+5/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf
+-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on refman.pdf (43 pages, 215121 bytes).
 PDF statistics:
- 215 PDF objects out of 1000 (max. 8388607)
- 174 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
- 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1531 PDF objects out of 1728 (max. 8388607)
+ 1437 compressed objects within 15 object streams
+ 320 named destinations out of 1000 (max. 500000)
+ 1078 words of extra memory for PDF output out of 10000 (max. 10000000)
 

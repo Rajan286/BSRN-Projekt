@@ -12,4 +12,124 @@
 \contentsline {section}{\numberline {1.10}Flussdiagramm der Hosts}{3}{section.1.10}%
 \contentsline {section}{\numberline {1.11}Flussdiagramm der Hosts}{4}{section.1.11}%
 \contentsline {section}{\numberline {1.12}Autoren}{4}{section.1.12}%
-\contentsline {chapter}{Index}{5}{section*.1}%
+\contentsline {chapter}{\numberline {2}Namespace Index}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Namespace List}{5}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Index}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class List}{7}{section.3.1}%
+\contentsline {chapter}{\numberline {4}File Index}{9}{chapter.4}%
+\contentsline {section}{\numberline {4.1}File List}{9}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Namespace Documentation}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}common Namespace Reference}{11}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{11}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Function Documentation}{12}{subsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.2.1}create\_fifo()}{12}{subsubsection.5.1.2.1}%
+\contentsline {subsubsection}{\numberline {5.1.2.2}graceful\_shutdown()}{12}{subsubsection.5.1.2.2}%
+\contentsline {subsubsection}{\numberline {5.1.2.3}load\_config()}{12}{subsubsection.5.1.2.3}%
+\contentsline {subsubsection}{\numberline {5.1.2.4}pipe\_path()}{12}{subsubsection.5.1.2.4}%
+\contentsline {subsubsection}{\numberline {5.1.2.5}read\_from\_fifo()}{13}{subsubsection.5.1.2.5}%
+\contentsline {subsubsection}{\numberline {5.1.2.6}remove\_pid()}{13}{subsubsection.5.1.2.6}%
+\contentsline {subsubsection}{\numberline {5.1.2.7}write\_pid()}{13}{subsubsection.5.1.2.7}%
+\contentsline {subsubsection}{\numberline {5.1.2.8}write\_to\_fifo()}{13}{subsubsection.5.1.2.8}%
+\contentsline {subsection}{\numberline {5.1.3}Variable Documentation}{14}{subsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.1}exist\_ok}{14}{subsubsection.5.1.3.1}%
+\contentsline {subsubsection}{\numberline {5.1.3.2}format}{14}{subsubsection.5.1.3.2}%
+\contentsline {subsubsection}{\numberline {5.1.3.3}INFO}{14}{subsubsection.5.1.3.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.4}level}{14}{subsubsection.5.1.3.4}%
+\contentsline {subsubsection}{\numberline {5.1.3.5}log}{14}{subsubsection.5.1.3.5}%
+\contentsline {subsubsection}{\numberline {5.1.3.6}PID\_FILE}{14}{subsubsection.5.1.3.6}%
+\contentsline {subsubsection}{\numberline {5.1.3.7}PIPE\_DIR}{14}{subsubsection.5.1.3.7}%
+\contentsline {subsubsection}{\numberline {5.1.3.8}USER}{14}{subsubsection.5.1.3.8}%
+\contentsline {section}{\numberline {5.2}config Namespace Reference}{14}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Variable Documentation}{15}{subsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.1}autoreply}{15}{subsubsection.5.2.1.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.2}handle}{15}{subsubsection.5.2.1.2}%
+\contentsline {subsubsection}{\numberline {5.2.1.3}imagepath}{15}{subsubsection.5.2.1.3}%
+\contentsline {subsubsection}{\numberline {5.2.1.4}port}{15}{subsubsection.5.2.1.4}%
+\contentsline {subsubsection}{\numberline {5.2.1.5}whoisport}{15}{subsubsection.5.2.1.5}%
+\contentsline {section}{\numberline {5.3}discovery Namespace Reference}{15}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Detailed Description}{15}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Variable Documentation}{16}{subsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.2.1}d}{16}{subsubsection.5.3.2.1}%
+\contentsline {section}{\numberline {5.4}network Namespace Reference}{16}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Detailed Description}{16}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Function Documentation}{17}{subsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.2.1}cleanup\_and\_exit()}{17}{subsubsection.5.4.2.1}%
+\contentsline {subsubsection}{\numberline {5.4.2.2}get\_own\_ip()}{17}{subsubsection.5.4.2.2}%
+\contentsline {subsubsection}{\numberline {5.4.2.3}handle\_commands()}{17}{subsubsection.5.4.2.3}%
+\contentsline {subsubsection}{\numberline {5.4.2.4}listen\_tcp()}{18}{subsubsection.5.4.2.4}%
+\contentsline {subsubsection}{\numberline {5.4.2.5}receive\_udp()}{18}{subsubsection.5.4.2.5}%
+\contentsline {subsubsection}{\numberline {5.4.2.6}send\_img()}{18}{subsubsection.5.4.2.6}%
+\contentsline {subsubsection}{\numberline {5.4.2.7}send\_join()}{18}{subsubsection.5.4.2.7}%
+\contentsline {subsubsection}{\numberline {5.4.2.8}send\_leave()}{19}{subsubsection.5.4.2.8}%
+\contentsline {subsubsection}{\numberline {5.4.2.9}send\_msg()}{19}{subsubsection.5.4.2.9}%
+\contentsline {subsubsection}{\numberline {5.4.2.10}send\_who()}{19}{subsubsection.5.4.2.10}%
+\contentsline {subsubsection}{\numberline {5.4.2.11}send\_whois()}{19}{subsubsection.5.4.2.11}%
+\contentsline {subsubsection}{\numberline {5.4.2.12}start\_network()}{19}{subsubsection.5.4.2.12}%
+\contentsline {subsection}{\numberline {5.4.3}Variable Documentation}{20}{subsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.1}config}{20}{subsubsection.5.4.3.1}%
+\contentsline {subsubsection}{\numberline {5.4.3.2}FIFO\_NET\_TO\_UI}{20}{subsubsection.5.4.3.2}%
+\contentsline {subsubsection}{\numberline {5.4.3.3}FIFO\_UI\_TO\_NET}{20}{subsubsection.5.4.3.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.4}last\_peers\_display}{20}{subsubsection.5.4.3.4}%
+\contentsline {subsubsection}{\numberline {5.4.3.5}left\_peers}{20}{subsubsection.5.4.3.5}%
+\contentsline {subsubsection}{\numberline {5.4.3.6}peer\_join\_time}{20}{subsubsection.5.4.3.6}%
+\contentsline {subsubsection}{\numberline {5.4.3.7}peers}{20}{subsubsection.5.4.3.7}%
+\contentsline {subsubsection}{\numberline {5.4.3.8}running}{20}{subsubsection.5.4.3.8}%
+\contentsline {subsubsection}{\numberline {5.4.3.9}udp\_sock}{20}{subsubsection.5.4.3.9}%
+\contentsline {section}{\numberline {5.5}peer Namespace Reference}{21}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Detailed Description}{21}{subsection.5.5.1}%
+\contentsline {section}{\numberline {5.6}ui Namespace Reference}{21}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Detailed Description}{21}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Variable Documentation}{21}{subsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.2.1}FIFO\_NET\_TO\_UI}{21}{subsubsection.5.6.2.1}%
+\contentsline {subsubsection}{\numberline {5.6.2.2}FIFO\_UI\_TO\_NET}{21}{subsubsection.5.6.2.2}%
+\contentsline {chapter}{\numberline {6}Class Documentation}{23}{chapter.6}%
+\contentsline {section}{\numberline {6.1}ui.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Chat\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}UI Class Reference}{23}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{23}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Constructor \& Destructor Documentation}{23}{subsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.2.1}\_\_init\_\_()}{23}{subsubsection.6.1.2.1}%
+\contentsline {subsection}{\numberline {6.1.3}Member Function Documentation}{24}{subsection.6.1.3}%
+\contentsline {subsubsection}{\numberline {6.1.3.1}listen\_pipes()}{24}{subsubsection.6.1.3.1}%
+\contentsline {subsubsection}{\numberline {6.1.3.2}start()}{24}{subsubsection.6.1.3.2}%
+\contentsline {subsection}{\numberline {6.1.4}Member Data Documentation}{24}{subsection.6.1.4}%
+\contentsline {subsubsection}{\numberline {6.1.4.1}config}{24}{subsubsection.6.1.4.1}%
+\contentsline {subsubsection}{\numberline {6.1.4.2}handle}{24}{subsubsection.6.1.4.2}%
+\contentsline {subsubsection}{\numberline {6.1.4.3}pipe\_path}{24}{subsubsection.6.1.4.3}%
+\contentsline {subsubsection}{\numberline {6.1.4.4}port}{24}{subsubsection.6.1.4.4}%
+\contentsline {section}{\numberline {6.2}discovery.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Discovery Class Reference}{25}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Detailed Description}{25}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Constructor \& Destructor Documentation}{25}{subsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.2.1}\_\_init\_\_()}{25}{subsubsection.6.2.2.1}%
+\contentsline {subsection}{\numberline {6.2.3}Member Function Documentation}{25}{subsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.1}listen\_udp\_all()}{25}{subsubsection.6.2.3.1}%
+\contentsline {subsubsection}{\numberline {6.2.3.2}send\_who()}{26}{subsubsection.6.2.3.2}%
+\contentsline {subsubsection}{\numberline {6.2.3.3}shutdown()}{26}{subsubsection.6.2.3.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.4}start()}{26}{subsubsection.6.2.3.4}%
+\contentsline {subsection}{\numberline {6.2.4}Member Data Documentation}{26}{subsection.6.2.4}%
+\contentsline {subsubsection}{\numberline {6.2.4.1}config}{26}{subsubsection.6.2.4.1}%
+\contentsline {subsubsection}{\numberline {6.2.4.2}handle}{26}{subsubsection.6.2.4.2}%
+\contentsline {subsubsection}{\numberline {6.2.4.3}known\_peers}{26}{subsubsection.6.2.4.3}%
+\contentsline {subsubsection}{\numberline {6.2.4.4}port}{26}{subsubsection.6.2.4.4}%
+\contentsline {subsubsection}{\numberline {6.2.4.5}udp\_listener\_thread}{27}{subsubsection.6.2.4.5}%
+\contentsline {subsubsection}{\numberline {6.2.4.6}whois\_port}{27}{subsubsection.6.2.4.6}%
+\contentsline {section}{\numberline {6.3}peer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Peer Class Reference}{27}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{27}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Constructor \& Destructor Documentation}{28}{subsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.1}\_\_init\_\_()}{28}{subsubsection.6.3.2.1}%
+\contentsline {subsection}{\numberline {6.3.3}Member Function Documentation}{28}{subsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.3.1}\_\_eq\_\_()}{28}{subsubsection.6.3.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.3.2}\_\_hash\_\_()}{28}{subsubsection.6.3.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3.3}\_\_repr\_\_()}{28}{subsubsection.6.3.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.3.4}get\_address()}{29}{subsubsection.6.3.3.4}%
+\contentsline {subsection}{\numberline {6.3.4}Member Data Documentation}{29}{subsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.4.1}handle}{29}{subsubsection.6.3.4.1}%
+\contentsline {subsubsection}{\numberline {6.3.4.2}ip}{29}{subsubsection.6.3.4.2}%
+\contentsline {subsubsection}{\numberline {6.3.4.3}port}{29}{subsubsection.6.3.4.3}%
+\contentsline {chapter}{\numberline {7}File Documentation}{31}{chapter.7}%
+\contentsline {section}{\numberline {7.1}common.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{31}{section.7.1}%
+\contentsline {section}{\numberline {7.2}config.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}toml File Reference}{31}{section.7.2}%
+\contentsline {section}{\numberline {7.3}discovery.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{32}{section.7.3}%
+\contentsline {section}{\numberline {7.4}docs/mainpage.dox File Reference}{32}{section.7.4}%
+\contentsline {section}{\numberline {7.5}network.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{32}{section.7.5}%
+\contentsline {section}{\numberline {7.6}peer.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{33}{section.7.6}%
+\contentsline {section}{\numberline {7.7}ui.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{33}{section.7.7}%
+\contentsline {chapter}{Index}{35}{section*.33}%

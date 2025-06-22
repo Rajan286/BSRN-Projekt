@@ -1,0 +1,202 @@
+\doxysection{common Namespace Reference}
+\hypertarget{namespacecommon}{}\label{namespacecommon}\index{common@{common}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecommon_af8190ccb780492a5549cac9e82190bb6}{load\+\_\+config}} (config\+\_\+path="{}config.\+toml"{})
+\item 
+\mbox{\hyperlink{namespacecommon_a7804f9ab1fbfe5c1d37c4e3ec4f77be2}{pipe\+\_\+path}} (name)
+\item 
+\mbox{\hyperlink{namespacecommon_a069a02948821ba3b6f887ce547f00e36}{create\+\_\+fifo}} (name)
+\item 
+\mbox{\hyperlink{namespacecommon_a89125733026cac5e22a237c43ec16788}{write\+\_\+to\+\_\+fifo}} (name, message)
+\item 
+\mbox{\hyperlink{namespacecommon_aaaeffb3a0a24cca00206398ea451fb4a}{read\+\_\+from\+\_\+fifo}} (name, blocking=True)
+\item 
+\mbox{\hyperlink{namespacecommon_a6ee9e9640ee5338a89989e5f40cbe6b8}{write\+\_\+pid}} (pid\+\_\+file=\mbox{\hyperlink{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9}{PID\+\_\+\+FILE}})
+\item 
+\mbox{\hyperlink{namespacecommon_a4eea5e538e05a93fe8c8657287ca650c}{remove\+\_\+pid}} (pid\+\_\+file=\mbox{\hyperlink{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9}{PID\+\_\+\+FILE}})
+\item 
+\mbox{\hyperlink{namespacecommon_a39adda5b27799421c3cf0ebf5d86a086}{graceful\+\_\+shutdown}} (sig, frame)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecommon_adcd0102a061c8308b74535b65f2a3da4}{USER}} = getpass.\+getuser()
+\item 
+str \mbox{\hyperlink{namespacecommon_afb22cf233fee985d548eb24b82d82276}{PIPE\+\_\+\+DIR}} = f"{}/tmp/slcp\+\_\+\{\mbox{\hyperlink{namespacecommon_adcd0102a061c8308b74535b65f2a3da4}{USER}}\}"{}
+\item 
+\mbox{\hyperlink{namespacecommon_aff091e6a0615cbdaaeade6282ab145c1}{exist\+\_\+ok}}
+\item 
+\mbox{\hyperlink{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9}{PID\+\_\+\+FILE}} = os.\+path.\+join(\mbox{\hyperlink{namespacecommon_afb22cf233fee985d548eb24b82d82276}{PIPE\+\_\+\+DIR}}, "{}slcp\+\_\+discovery.\+pid"{})
+\item 
+\mbox{\hyperlink{namespacecommon_a774c5703f9017936319b8ef42651da20}{level}}
+\item 
+\mbox{\hyperlink{namespacecommon_ae28cfb954b54bb29190388ff15637db1}{INFO}}
+\item 
+\mbox{\hyperlink{namespacecommon_a3a43f3495b5ecce4b75aec43e191fa04}{format}}
+\item 
+\mbox{\hyperlink{namespacecommon_aea8b0f67a08e39b1c6684b99aa2433e8}{log}} = logging.\+get\+Logger("{}SLCP"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@file common.py
+@brief Utility-Funktionen und IPC-/Logging-Infrastruktur für den SLCP-Discovery-Dienst.
+
+Diese Datei stellt Hilfsfunktionen, globale Konstanten und Pipe-Verwaltung bereit.
+\end{DoxyVerb}
+ 
+
+\label{doc-func-members}
+\Hypertarget{namespacecommon_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecommon_a069a02948821ba3b6f887ce547f00e36}\index{common@{common}!create\_fifo@{create\_fifo}}
+\index{create\_fifo@{create\_fifo}!common@{common}}
+\doxysubsubsection{\texorpdfstring{create\_fifo()}{create\_fifo()}}
+{\footnotesize\ttfamily \label{namespacecommon_a069a02948821ba3b6f887ce547f00e36} 
+common.\+create\+\_\+fifo (\begin{DoxyParamCaption}\item[{}]{name}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Erstellt eine Named Pipe (FIFO), falls sie nicht existiert.
+
+@param name Name der Pipe, die erstellt werden soll.
+@return Pfad zur erstellten oder bereits existierenden Pipe.
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_a39adda5b27799421c3cf0ebf5d86a086}\index{common@{common}!graceful\_shutdown@{graceful\_shutdown}}
+\index{graceful\_shutdown@{graceful\_shutdown}!common@{common}}
+\doxysubsubsection{\texorpdfstring{graceful\_shutdown()}{graceful\_shutdown()}}
+{\footnotesize\ttfamily \label{namespacecommon_a39adda5b27799421c3cf0ebf5d86a086} 
+common.\+graceful\+\_\+shutdown (\begin{DoxyParamCaption}\item[{}]{sig}{, }\item[{}]{frame}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Signal-Handler für SIGINT, beendet das Programm sauber.
+
+@param sig Signalnummer (z.B. signal.SIGINT).
+@param frame Aktueller Stack-Frame (wird nicht genutzt).
+@return None
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_af8190ccb780492a5549cac9e82190bb6}\index{common@{common}!load\_config@{load\_config}}
+\index{load\_config@{load\_config}!common@{common}}
+\doxysubsubsection{\texorpdfstring{load\_config()}{load\_config()}}
+{\footnotesize\ttfamily \label{namespacecommon_af8190ccb780492a5549cac9e82190bb6} 
+common.\+load\+\_\+config (\begin{DoxyParamCaption}\item[{}]{config\+\_\+path}{ = {\ttfamily "{}config.toml"{}}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Liest die Konfiguration aus einer TOML-Datei.
+
+Diese Funktion lädt die Datei 'config.toml' und gibt den Abschnitt 'DEFAULT' zurück.
+@param config_path Pfad zur TOML-Konfigurationsdatei.
+@return Dictionary mit Werten aus dem Abschnitt 'DEFAULT'.
+@throws SystemExit Wenn die Datei nicht existiert oder nicht gelesen werden kann.
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_a7804f9ab1fbfe5c1d37c4e3ec4f77be2}\index{common@{common}!pipe\_path@{pipe\_path}}
+\index{pipe\_path@{pipe\_path}!common@{common}}
+\doxysubsubsection{\texorpdfstring{pipe\_path()}{pipe\_path()}}
+{\footnotesize\ttfamily \label{namespacecommon_a7804f9ab1fbfe5c1d37c4e3ec4f77be2} 
+common.\+pipe\+\_\+path (\begin{DoxyParamCaption}\item[{}]{name}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Bestimmt den Pfad zur FIFO für einen gegebenen Prozessnamen.
+
+@param name Name der Pipe (z.B. 'ui', 'network').
+@return Vollständiger Pfad zur Named Pipe im PIPE_DIR.
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_aaaeffb3a0a24cca00206398ea451fb4a}\index{common@{common}!read\_from\_fifo@{read\_from\_fifo}}
+\index{read\_from\_fifo@{read\_from\_fifo}!common@{common}}
+\doxysubsubsection{\texorpdfstring{read\_from\_fifo()}{read\_from\_fifo()}}
+{\footnotesize\ttfamily \label{namespacecommon_aaaeffb3a0a24cca00206398ea451fb4a} 
+common.\+read\+\_\+from\+\_\+fifo (\begin{DoxyParamCaption}\item[{}]{name}{, }\item[{}]{blocking}{ = {\ttfamily True}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Liest eine Zeile aus einer Named Pipe.
+
+@param name Name der Pipe.
+@param blocking Wenn False, wird non-blocking gelesen.
+@return Geladene Zeile als String (ohne Newline) oder leer bei Fehler.
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_a4eea5e538e05a93fe8c8657287ca650c}\index{common@{common}!remove\_pid@{remove\_pid}}
+\index{remove\_pid@{remove\_pid}!common@{common}}
+\doxysubsubsection{\texorpdfstring{remove\_pid()}{remove\_pid()}}
+{\footnotesize\ttfamily \label{namespacecommon_a4eea5e538e05a93fe8c8657287ca650c} 
+common.\+remove\+\_\+pid (\begin{DoxyParamCaption}\item[{}]{pid\+\_\+file}{ = {\ttfamily \mbox{\hyperlink{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9}{PID\+\_\+\+FILE}}}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Entfernt die PID-Datei des Discovery-Dienstes.
+
+@param pid_file Pfad zur zu entfernenden PID-Datei.
+@return None
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_a6ee9e9640ee5338a89989e5f40cbe6b8}\index{common@{common}!write\_pid@{write\_pid}}
+\index{write\_pid@{write\_pid}!common@{common}}
+\doxysubsubsection{\texorpdfstring{write\_pid()}{write\_pid()}}
+{\footnotesize\ttfamily \label{namespacecommon_a6ee9e9640ee5338a89989e5f40cbe6b8} 
+common.\+write\+\_\+pid (\begin{DoxyParamCaption}\item[{}]{pid\+\_\+file}{ = {\ttfamily \mbox{\hyperlink{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9}{PID\+\_\+\+FILE}}}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Schreibt die aktuelle Prozess-ID in eine Datei.
+
+@param pid_file Pfad zur PID-Datei.
+@return None
+\end{DoxyVerb}
+ \Hypertarget{namespacecommon_a89125733026cac5e22a237c43ec16788}\index{common@{common}!write\_to\_fifo@{write\_to\_fifo}}
+\index{write\_to\_fifo@{write\_to\_fifo}!common@{common}}
+\doxysubsubsection{\texorpdfstring{write\_to\_fifo()}{write\_to\_fifo()}}
+{\footnotesize\ttfamily \label{namespacecommon_a89125733026cac5e22a237c43ec16788} 
+common.\+write\+\_\+to\+\_\+fifo (\begin{DoxyParamCaption}\item[{}]{name}{, }\item[{}]{message}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Schreibt eine Nachricht in eine Named Pipe.
+
+Versucht bis zu 5 Mal, non-blocking in die FIFO zu schreiben, und
+ignoriert Broken-Pipe-Fehler oder fehlende Leser.
+
+@param name Name der Pipe.
+@param message Zu schreibende Nachricht (String).
+@return None
+\end{DoxyVerb}
+ 
+
+\label{doc-var-members}
+\Hypertarget{namespacecommon_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecommon_aff091e6a0615cbdaaeade6282ab145c1}\index{common@{common}!exist\_ok@{exist\_ok}}
+\index{exist\_ok@{exist\_ok}!common@{common}}
+\doxysubsubsection{\texorpdfstring{exist\_ok}{exist\_ok}}
+{\footnotesize\ttfamily \label{namespacecommon_aff091e6a0615cbdaaeade6282ab145c1} 
+common.\+exist\+\_\+ok}
+
+\Hypertarget{namespacecommon_a3a43f3495b5ecce4b75aec43e191fa04}\index{common@{common}!format@{format}}
+\index{format@{format}!common@{common}}
+\doxysubsubsection{\texorpdfstring{format}{format}}
+{\footnotesize\ttfamily \label{namespacecommon_a3a43f3495b5ecce4b75aec43e191fa04} 
+common.\+format}
+
+\Hypertarget{namespacecommon_ae28cfb954b54bb29190388ff15637db1}\index{common@{common}!INFO@{INFO}}
+\index{INFO@{INFO}!common@{common}}
+\doxysubsubsection{\texorpdfstring{INFO}{INFO}}
+{\footnotesize\ttfamily \label{namespacecommon_ae28cfb954b54bb29190388ff15637db1} 
+common.\+INFO}
+
+\Hypertarget{namespacecommon_a774c5703f9017936319b8ef42651da20}\index{common@{common}!level@{level}}
+\index{level@{level}!common@{common}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily \label{namespacecommon_a774c5703f9017936319b8ef42651da20} 
+common.\+level}
+
+\Hypertarget{namespacecommon_aea8b0f67a08e39b1c6684b99aa2433e8}\index{common@{common}!log@{log}}
+\index{log@{log}!common@{common}}
+\doxysubsubsection{\texorpdfstring{log}{log}}
+{\footnotesize\ttfamily \label{namespacecommon_aea8b0f67a08e39b1c6684b99aa2433e8} 
+common.\+log = logging.\+get\+Logger("{}SLCP"{})}
+
+\Hypertarget{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9}\index{common@{common}!PID\_FILE@{PID\_FILE}}
+\index{PID\_FILE@{PID\_FILE}!common@{common}}
+\doxysubsubsection{\texorpdfstring{PID\_FILE}{PID\_FILE}}
+{\footnotesize\ttfamily \label{namespacecommon_a4f9a0bff82330d1fc932a75d67c8f9a9} 
+common.\+PID\+\_\+\+FILE = os.\+path.\+join(\mbox{\hyperlink{namespacecommon_afb22cf233fee985d548eb24b82d82276}{PIPE\+\_\+\+DIR}}, "{}slcp\+\_\+discovery.\+pid"{})}
+
+\Hypertarget{namespacecommon_afb22cf233fee985d548eb24b82d82276}\index{common@{common}!PIPE\_DIR@{PIPE\_DIR}}
+\index{PIPE\_DIR@{PIPE\_DIR}!common@{common}}
+\doxysubsubsection{\texorpdfstring{PIPE\_DIR}{PIPE\_DIR}}
+{\footnotesize\ttfamily \label{namespacecommon_afb22cf233fee985d548eb24b82d82276} 
+common.\+PIPE\+\_\+\+DIR = f"{}/tmp/slcp\+\_\+\{\mbox{\hyperlink{namespacecommon_adcd0102a061c8308b74535b65f2a3da4}{USER}}\}"{}}
+
+\Hypertarget{namespacecommon_adcd0102a061c8308b74535b65f2a3da4}\index{common@{common}!USER@{USER}}
+\index{USER@{USER}!common@{common}}
+\doxysubsubsection{\texorpdfstring{USER}{USER}}
+{\footnotesize\ttfamily \label{namespacecommon_adcd0102a061c8308b74535b65f2a3da4} 
+common.\+USER = getpass.\+getuser()}
+

@@ -8,9 +8,9 @@ Dieses Projekt implementiert einen dezentralen Chat-\/\+Client basierend auf dem
 \item Dezentrale Discovery mittels Broadcast und lokaler Discovery-\/\+Dienste
 \item Klare Trennung der Funktionalität in drei Prozesse\+:
 \begin{DoxyItemize}
-\item Benutzeroberfläche (ui.\+py)
-\item Netzwerk-\/\+Modul (network.\+py, peer.\+py)
-\item Discovery-\/\+Dienst (discovery.\+py)
+\item Benutzeroberfläche (\doxylink{ui_8py}{ui.\+py})
+\item Netzwerk-\/\+Modul (\doxylink{network_8py}{network.\+py}, \doxylink{peer_8py}{peer.\+py})
+\item Discovery-\/\+Dienst (\doxylink{discovery_8py}{discovery.\+py})
 \end{DoxyItemize}
 \item Konfiguration per TOML-\/\+Datei, editierbar über CLI
 \item Robustheit\+: Wiederverwendbarer Port-\/\+Finder, Named Pipes (FIFO), Signal-\/\+Handling
@@ -28,16 +28,16 @@ Kommunikation erfolgt über\+:
 \item TCP-\/\+Unicast für Direktnachrichten (MSG, IMG) und WHOIS
 \item Named Pipes (FIFO) für IPC zwischen UI und Netzwerkmodul
 \end{DoxyItemize}\hypertarget{index_config}{}\doxysection{\texorpdfstring{Konfiguration}{Konfiguration}}\label{index_config}
-Die zentrale Konfigurationsdatei {\ttfamily config.\+toml} enthält folgende Parameter\+: \begin{DoxyItemize}
+Die zentrale Konfigurationsdatei {\ttfamily \doxylink{config_8toml}{config.\+toml}} enthält folgende Parameter\+: \begin{DoxyItemize}
 \item handle Benutzername des Clients \item port Start-\/\+Port für lokale UDP-\//\+TCP-\/\+Sockets \item whoisport UDP-\/\+Port für Discovery-\/\+Broadcasts \item autoreply Automatische Abwesenheits-\/\+Antwort (leer = deaktiviert) \item imagepath Verzeichnis zum Speichern empfangener Bilder\end{DoxyItemize}
 Optional\+: zweite Konfiguration ({\ttfamily config2.\+toml}) zum schnellen Wechsel des Handles und Ports (Ordner\+: User2).\hypertarget{index_modules}{}\doxysection{\texorpdfstring{Modulübersicht}{Modulübersicht}}\label{index_modules}
 
 \begin{DoxyItemize}
-\item common.\+py\+: Helferfunktionen, FIFO-\/\+Verwaltung, Logging, PID-\/\+Management
-\item peer.\+py\+: Modelliert Peers mit Handle, IP und Port, unterstützt Vergleich/\+Hash
-\item discovery.\+py\+: Discovery-\/\+Dienst (WHO, JOIN, LEAVE, KNOWUSERS)
-\item network.\+py\+: Netzwerkmodul (MSG, IMG, WHOIS, TCP/\+UDP-\/\+Sockets)
-\item ui.\+py\+: Kommandozeilen-\/\+UI, zeigt Nachrichten und empfängt Befehle
+\item \doxylink{common_8py}{common.\+py}\+: Helferfunktionen, FIFO-\/\+Verwaltung, Logging, PID-\/\+Management
+\item \doxylink{peer_8py}{peer.\+py}\+: Modelliert Peers mit Handle, IP und Port, unterstützt Vergleich/\+Hash
+\item \doxylink{discovery_8py}{discovery.\+py}\+: Discovery-\/\+Dienst (WHO, JOIN, LEAVE, KNOWUSERS)
+\item \doxylink{network_8py}{network.\+py}\+: Netzwerkmodul (MSG, IMG, WHOIS, TCP/\+UDP-\/\+Sockets)
+\item \doxylink{ui_8py}{ui.\+py}\+: Kommandozeilen-\/\+UI, zeigt Nachrichten und empfängt Befehle
 \end{DoxyItemize}\hypertarget{index_protocol}{}\doxysection{\texorpdfstring{SLCP-\/\+Protokoll}{SLCP-\/\+Protokoll}}\label{index_protocol}
 SLCP-\/\+Befehle (textbasiert, UTF-\/8, ~\newline
 -\/terminiert)\+: \begin{DoxyItemize}
@@ -74,10 +74,10 @@ SLCP-\/\+Befehle (textbasiert, UTF-\/8, ~\newline
 \item {\bfseries{Type\+Error}}\+: \textquotesingle{}Discovery\+Service\textquotesingle{} is not subscriptable – Lösung\+: Objekte als Liste übergeben.
 \end{DoxyItemize}
 
-Screenshots einbinden (in {\ttfamily docs/\+Bilder})\+:    \hypertarget{index_flow}{}\doxysection{\texorpdfstring{Flussdiagramm der Hosts}{Flussdiagramm der Hosts}}\label{index_flow}
+Screenshots einiger aufgetretener Fehler befinden sich in ({\ttfamily docs/image})\hypertarget{index_flow}{}\doxysection{\texorpdfstring{Flussdiagramm der Hosts}{Flussdiagramm der Hosts}}\label{index_flow}
 Ablauf auf zwei Hosts im selben WLAN\+:
 \begin{DoxyItemize}
-\item Host A\+: startet discovery.\+py, network.\+py, ui.\+py
+\item Host A\+: startet \doxylink{discovery_8py}{discovery.\+py}, \doxylink{network_8py}{network.\+py}, \doxylink{ui_8py}{ui.\+py}
 \item Host B\+: ebenso, mit eigener config
 \end{DoxyItemize}
 

@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['schneller_20start_20mit_20skript_0',['Schneller Start mit Skript',['../index.html#quickstart',1,'']]],
-  ['skript_1',['Schneller Start mit Skript',['../index.html#quickstart',1,'']]],
-  ['slcp_20chat_20programm_20–_20detaillierte_20dokumentation_2',['SLCP-Chat Programm – Detaillierte Dokumentation',['../index.html',1,'']]],
-  ['slcp_20protokoll_3',['SLCP-Protokoll',['../index.html#protocol',1,'']]],
-  ['start_20mit_20skript_4',['Schneller Start mit Skript',['../index.html#quickstart',1,'']]]
+  ['known_5fpeers_0',['known_peers',['../classdiscovery_1_1_discovery.html#a59981dbcf2d4a285724263625570ff4d',1,'discovery::Discovery']]],
+  ['konfiguration_1',['Konfiguration',['../index.html#config',1,'']]]
 ];
