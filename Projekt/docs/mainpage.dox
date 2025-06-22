@@ -35,9 +35,9 @@
  * @li autoreply Automatische Abwesenheits-Antwort (leer = deaktiviert)
  * @li imagepath Verzeichnis zum Speichern empfangener Bilder
  *
- * Optional: zweite Konfiguration (auch `config.toml`) zum schnellen Wechsel des Handles
+ * Optional: zweite Konfiguration (`config2.toml`) zum schnellen Wechsel des Handles
  * und Ports (Ordner: User2).
- * 
+ *
  * @section modules Modulübersicht
  * - common.py: Helferfunktionen, FIFO-Verwaltung, Logging, PID-Management
  * - peer.py: Modelliert Peers mit Handle, IP und Port, unterstützt Vergleich/Hash
@@ -56,56 +56,49 @@
  * @li WHOIS <Handle>  (Antwort: IAM <Handle> <IP> <Port>)
  *
  * @section quickstart Schneller Start mit Skript
- * Startskript `start_chat.sh`:
  * ```bash
  * #!/bin/bash
  * gnome-terminal -- bash -c "python3 discovery.py config.toml; exec bash"
  * gnome-terminal -- bash -c "python3 network.py config.toml; exec bash"
  * gnome-terminal -- bash -c "python3 ui.py; exec bash"
  * ```
- * Ausführbar machen: `chmod +x start_chat.sh`
+ * Ausführbar: `chmod +x start_chat.sh`
  *
  * @section build Abhängigkeiten & Dokumentation
  * - `pip install toml`
- * - Doku: `doxygen Doxyfile`  (HTML in `html/`)
+ * - Dokumentation generieren: `doxygen Doxyfile`  (HTML in `html/`)
  *
  * @section aufgetretene Fehler
- * Während der Entwicklung traten folgende Probleme auf:
- * - **ConfigNotFound**: Konfigurationsdatei nicht gefunden – Lösung: Prüfe den Pfad, nutze `--config`-Parameter oder setze Umgebungsvariable für den richtigen Pfad.
- * - **FIFOPermission**: Keine Berechtigung für FIFO-Erstellung oder -Zugriff – Lösung: Stelle sicher, dass das Verzeichnis `PIPE_DIR` existiert und du Schreibrechte hast.
- * - **BrokenPipe**: BrokenPipe-Fehler beim Schreiben in FIFO – Lösung: Vor dem Schreiben prüfen, ob Leser aktiv, oder BrokenPipe mit Retry/Timeout abfangen.
- * - **UDPBlocked**: UDP-Broadcast blockiert (z.B. macOS Restriktionen) – Lösung: Verwende lokale Broadcast-Adresse (z.B. `192.168.178.255`)
- * - **PortInUse**: Socket-Bind-Fehler (Port bereits belegt) – Lösung: Nutze `get_available_port()` aus `common.py` oder wähle einen anderen Startport in der Konfiguration.
- * - **TCPTimeout**: Timeout beim TCP-Verbindungsaufbau oder -Akzeptieren – Lösung: Setze sinnvolle Socket-Timeouts (`settimeout`) und fange `socket.timeout` ab.
- * - **InvalidCommand**: Unbekannte oder ungültige SLCP-Befehle empfangen – Lösung: Überprüfe Eingaben gegen erlaubte Befehle und logge Warnungen bei ungültigen Nachrichten.
- * - **PartialImage**: Teilweiser oder unvollständiger Bildempfang – Lösung: Vergleiche empfangene Bytes mit angegebener Größe und verwirf unvollständige Dateien oder bitte um erneute Sendung.
- * - **SignalHandlerFail**: Signalhandler nicht korrekt registriert – Lösung: Stelle sicher, dass `signal.signal()` vor `start()` aufgerufen wird und verwende `trap` im Startskript.
- * - **IPCError**: Fehler bei der Interprozesskommunikation via FIFO – Lösung: Fange IPC-Ausnahmen ab, logge Fehler und erstelle fehlende Pipes automatisch.
- * - **WinError 10488**:jede Socketadresse darf nur jeweils einmal geöffnet werden - Lösung:Jeweiliges Terminal schließen und neu starten
- * - **Your branch is behind**: Andere Mitglieder haben comittet und man selber hat nicht gepullt - Lösung: git pull im Terminal eingeben.
- * - **TypeError**: type ´DiscoveryService' is not subscriptable - Lösung: Objekte in Liste angeben.
+ * - **ConfigNotFound**: Konfigurationsdatei nicht gefunden – Lösung: Pfad prüfen oder `--config`-Parameter setzen.
+ * - **FIFOPermission**: Keine Berechtigung für FIFO-Erstellung oder -Zugriff – Lösung: Schreibrechte auf `PIPE_DIR` sicherstellen.
+ * - **BrokenPipe**: BrokenPipe-Fehler beim Schreiben in FIFO – Lösung: Retry/Timeout implementieren.
+ * - **UDPBlocked**: UDP-Broadcast blockiert (z.B. macOS Restriktionen) – Lösung: lokale Broadcast-Adresse (z.B. `192.168.178.255`) verwenden.
+ * - **PortInUse**: Socket-Bind-Fehler (Port belegt) – Lösung: anderen Start-Port konfigurieren.
+ * - **TCPTimeout**: Timeout beim TCP-Verbindungsaufbau oder -Akzeptieren – Lösung: Socket-Timeouts setzen und `socket.timeout` abfangen.
+ * - **InvalidCommand**: Unbekannter SLCP-Befehl – Lösung: Syntax validieren und Warnungen loggen.
+ * - **PartialImage**: Teilweiser Bildempfang – Lösung: empfangene Bytes mit `Size` abgleichen.
+ * - **SignalHandlerFail**: Signalhandler nicht registriert – Lösung: `signal.signal()` vor `start()` aufrufen.
+ * - **IPCError**: Fehler bei IPC via FIFO – Lösung: Ausnahmen abfangen und fehlende Pipes automatisch anlegen.
+ * - **WinError 10488**: Socketadresse bereits genutzt – Lösung: Terminal neu starten.
+ * - **Your branch is behind**: Branch veraltet – Lösung: `git pull` ausführen.
+ * - **TypeError**: 'DiscoveryService' is not subscriptable – Lösung: Objekte als Liste übergeben.
  *
  * Screenshots einbinden (in `docs/Bilder`):
- * ```
- * \Bilder html Discovery_bereits_gestartet.png "2 Discovery Terminals gestartet und versucht mit beiden zu lauschen"
- * \Bilder html Noch_nicht_gepullt.png "Noch nicht gepullt bevor man was comittet"
- * \Bilder html User_Falsch_pbergeben.png "Discovery Objekt wollte die User als Liste. Falsch übergeben"
- * \Bilder html TOML_Downloaden.png "Library wurde nicht heruntergeladen"
- * ```
+ * \image html Discovery_bereits_gestartet.png "Zwei Discovery-Instanzen"
+ * \image html Noch_nicht_gepullt.png "Nicht gepullt vor Commit"
+ * \image html User_Falsch_übergeben.png "Falsche Listenübergabe"
+ * \image html TOML_Downloaden.png "Library fehlte"
  *
  * @section flow Flussdiagramm der Hosts
  * Ablauf auf zwei Hosts im selben WLAN:
- * - Host A:
- *   1. `python3 discovery.py config.toml` (Terminal 1)
- *   2. `python3 network.py config.toml`   (Terminal 2)
- *   3. `python3 ui.py`                   (Terminal 3)
- * - Host B analog mit seiner eigenen `config.toml`
+ * - Host A: startet discovery.py, network.py, ui.py
+ * - Host B: ebenso, mit eigener config
  *
  * Kommunikation:
- * - UDP-Broadcast WHO → alle Discovery-Dienste
- * - UDP-Unicast KNOWUSERS → an anfragenden Host
- * - TCP-Unicast MSG/IMG/WHOIS → zwischen Peers
- * - FIFO UI→Net, FIFO Net→UI für IPC
+ * - UDP-Broadcast WHO → Discovery
+ * - UDP-Reply KNOWUSERS
+ * - TCP-Unicast für MSG/IMG/WHOIS
+ * - FIFO für UI-Netzwerkkommunikation
  *
  * @dot
  * digraph SLCP2Hosts {
@@ -119,19 +112,20 @@
  *   }
  *   subgraph cluster_B {
  *     label="Host B"; style=dashed;
- *     B1 [label="Terminal 1:\npython3 discovery.py config.toml"];
- *     B2 [label="Terminal 2:\npython3 network.py config.toml"];
+ *     B1 [label="Terminal 1:\npython3 discovery.py config2.toml"];
+ *     B2 [label="Terminal 2:\npython3 network.py config2.toml"];
  *     B3 [label="Terminal 3:\npython3 ui.py"];
  *   }
- *   A1 -> B1 [label="UDP Broadcast WHO", arrowhead=none];
- *   B1 -> A1 [label="UDP Reply KNOWUSERS", style=dotted, arrowhead=none];
- *   A2 -> B2 [label="TCP MSG/IMG/WHOIS"];
- *   B2 -> A2 [label="TCP MSG/IMG/WHOIS"];
+ *   A1 -> B1 [label="UDP: WHO", arrowhead=none];
+ *   B1 -> A1 [label="UDP: KNOWUSERS", style=dotted, arrowhead=none];
+ *   A2 -> B2 [label="TCP: MSG/IMG/WHOIS"];
+ *   B2 -> A2 [label="TCP: MSG/IMG/WHOIS"];
  *   A3 -> A2 [label="FIFO UI→Net"];
  *   A2 -> A3 [label="FIFO Net→UI"];
  *   B3 -> B2 [label="FIFO UI→Net"];
  *   B2 -> B3 [label="FIFO Net→UI"];
  * }
+ * @enddot
  *
  * @section authors Autoren
  * - Rajan Kakkar (1538362)
@@ -139,7 +133,4 @@
  * - Soufian Kenbouche (1574324)
  * - Bileya Karimou (1570665)
  * - Yasmin Hammouni (1514652)
- * @enddot
  */
-
-

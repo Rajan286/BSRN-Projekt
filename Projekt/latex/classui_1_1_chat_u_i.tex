@@ -1,0 +1,103 @@
+\doxysection{ui.\+Chat\+UI Class Reference}
+\hypertarget{classui_1_1_chat_u_i}{}\label{classui_1_1_chat_u_i}\index{ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_adb06725d4a32234bbc36bd16fd71cc9b}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_a041f8be6f57b53f8e0ab4297a2ff7e5f}{listen\+\_\+pipes}} (self)
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_af119d82f42087738fc13dcf6f0dc8263}{start}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_a64a897024a48aa2cadd384f079d7c8f2}{config}} = load\+\_\+config()
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_a4a52a2b0c5d34a16cf2b878952184b14}{handle}} = self.\+config\mbox{[}"{}handle"{}\mbox{]}
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_aea3aec2c239f2a5aba12f4de54302ab2}{port}} = self.\+config\mbox{[}"{}port"{}\mbox{]}
+\item 
+\mbox{\hyperlink{classui_1_1_chat_u_i_a7329aa0ce89dcbc2e496fee731594fbb}{pipe\+\_\+path}} = pipe\+\_\+path(\mbox{\hyperlink{namespaceui_ab52f030febefea2a6abf71595505aa3e}{FIFO\+\_\+\+NET\+\_\+\+TO\+\_\+\+UI}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@brief Chat-Interface für den Benutzer.
+
+Initialisiert UI-Pipes, lädt Konfiguration und bietet eine Eingabe-Loop für Befehle.
+\end{DoxyVerb}
+ 
+
+\label{doc-constructors}
+\Hypertarget{classui_1_1_chat_u_i_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classui_1_1_chat_u_i_adb06725d4a32234bbc36bd16fd71cc9b}\index{ui.ChatUI@{ui.ChatUI}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_adb06725d4a32234bbc36bd16fd71cc9b} 
+ui.\+Chat\+UI.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Initialisiert das ChatUI-Objekt.
+
+Lädt Konfiguration, legt Named Pipes an und speichert Pfad zur Eingabe-Pipe.
+\end{DoxyVerb}
+ 
+
+\label{doc-func-members}
+\Hypertarget{classui_1_1_chat_u_i_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classui_1_1_chat_u_i_a041f8be6f57b53f8e0ab4297a2ff7e5f}\index{ui.ChatUI@{ui.ChatUI}!listen\_pipes@{listen\_pipes}}
+\index{listen\_pipes@{listen\_pipes}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{listen\_pipes()}{listen\_pipes()}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_a041f8be6f57b53f8e0ab4297a2ff7e5f} 
+ui.\+Chat\+UI.\+listen\+\_\+pipes (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Liest dauerhaft Nachrichten aus der FIFO der Netzwerk-Komponente.
+
+Öffnet die UI-Leser-Pipe und gibt neue Nachrichten in der Konsole aus.
+\end{DoxyVerb}
+ \Hypertarget{classui_1_1_chat_u_i_af119d82f42087738fc13dcf6f0dc8263}\index{ui.ChatUI@{ui.ChatUI}!start@{start}}
+\index{start@{start}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_af119d82f42087738fc13dcf6f0dc8263} 
+ui.\+Chat\+UI.\+start (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Startet die UI-Hauptschleife und den Pipe-Listener-Thread.
+
+Zeigt Willkommensnachricht und Eingabe-Prompt an und verarbeitet Nutzerbefehle.
+\end{DoxyVerb}
+ 
+
+\label{doc-variable-members}
+\Hypertarget{classui_1_1_chat_u_i_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classui_1_1_chat_u_i_a64a897024a48aa2cadd384f079d7c8f2}\index{ui.ChatUI@{ui.ChatUI}!config@{config}}
+\index{config@{config}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_a64a897024a48aa2cadd384f079d7c8f2} 
+ui.\+Chat\+UI.\+config = load\+\_\+config()}
+
+\Hypertarget{classui_1_1_chat_u_i_a4a52a2b0c5d34a16cf2b878952184b14}\index{ui.ChatUI@{ui.ChatUI}!handle@{handle}}
+\index{handle@{handle}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{handle}{handle}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_a4a52a2b0c5d34a16cf2b878952184b14} 
+ui.\+Chat\+UI.\+handle = self.\+config\mbox{[}"{}handle"{}\mbox{]}}
+
+\Hypertarget{classui_1_1_chat_u_i_a7329aa0ce89dcbc2e496fee731594fbb}\index{ui.ChatUI@{ui.ChatUI}!pipe\_path@{pipe\_path}}
+\index{pipe\_path@{pipe\_path}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{pipe\_path}{pipe\_path}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_a7329aa0ce89dcbc2e496fee731594fbb} 
+ui.\+Chat\+UI.\+pipe\+\_\+path = pipe\+\_\+path(\mbox{\hyperlink{namespaceui_ab52f030febefea2a6abf71595505aa3e}{FIFO\+\_\+\+NET\+\_\+\+TO\+\_\+\+UI}})}
+
+\Hypertarget{classui_1_1_chat_u_i_aea3aec2c239f2a5aba12f4de54302ab2}\index{ui.ChatUI@{ui.ChatUI}!port@{port}}
+\index{port@{port}!ui.ChatUI@{ui.ChatUI}}
+\doxysubsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily \label{classui_1_1_chat_u_i_aea3aec2c239f2a5aba12f4de54302ab2} 
+ui.\+Chat\+UI.\+port = self.\+config\mbox{[}"{}port"{}\mbox{]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ui_8py}{ui.\+py}}\end{DoxyCompactItemize}

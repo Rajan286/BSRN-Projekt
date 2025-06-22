@@ -6,10 +6,10 @@ Diese Datei stellt Hilfsfunktionen, globale Konstanten und Pipe-Verwaltung berei
 """
 
 import os  #: Betriebssystemfunktionen
-import sys  #: Systemfunktionen (z. B. Exit)
+import sys  #: Systemfunktionen (z.B. Exit)
 import errno  #: Errno-Konstanten für Fehlercodes
 import toml  #: Einlesen von TOML-Konfigurationsdateien
-import signal  #: Signal-Handling (z. B. SIGINT)
+import signal  #: Signal-Handling (z.B. SIGINT)
 import logging  #: Logging-Framework
 import getpass  #: Ermittlung des aktuellen Benutzers
 import time  #: Zeitfunktionen (sleep)
@@ -46,7 +46,7 @@ def pipe_path(name):
     """
     @brief Bestimmt den Pfad zur FIFO für einen gegebenen Prozessnamen.
 
-    @param name Name der Pipe (z. B. 'ui', 'network').
+    @param name Name der Pipe (z.B. 'ui', 'network').
     @return Vollständiger Pfad zur Named Pipe im PIPE_DIR.
     """
     return os.path.join(PIPE_DIR, f"{name}.pipe")
@@ -153,7 +153,7 @@ def graceful_shutdown(sig, frame):  # pylint: disable=unused-argument
     """
     @brief Signal-Handler für SIGINT, beendet das Programm sauber.
 
-    @param sig Signalnummer (z. B. signal.SIGINT).
+    @param sig Signalnummer (z.B. signal.SIGINT).
     @param frame Aktueller Stack-Frame (wird nicht genutzt).
     @return None
     """
