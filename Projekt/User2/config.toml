@@ -1,0 +1,28 @@
+# @file config2.toml
+# @brief Alternative Konfigurationsdatei für SLCP-Client mit Benutzer "Bob".
+#
+# Diese Datei enthält die Parameter, die von der Funktion load_config() im Discovery- und
+# Netzwerk-Modul gelesen werden. Sie definiert Handle, Ports und weitere Einstellungen.
+
+[DEFAULT]
+# @param handle    Benutzername des Chat-Clients (Handle)
+#                   Beispiel: "Bob"
+handle = "Bob"
+
+# @param port      Start-Port für den lokalen UDP-Client. Es wird der erstverfügbare Port ab diesem Wert verwendet.
+#                   Beispiel: 5011
+port = 5011
+
+# @param whoisport UDP-Port für Broadcast-Nachrichten des Discovery-Dienstes (WHO/KNOWUSERS).
+#                   Muss für alle Clients gleich sein.
+#                   Beispiel: 4000
+whoisport = 4000
+
+# @param autoreply Automatischer Abwesenheits-Antworttext, wenn der Client eine Nachricht empfängt.
+#                   Leerer String deaktiviert den Abwesenheitsmodus.
+#                   Beispiel: "" (kein Auto-Reply)
+autoreply = ""
+
+# @param imagepath Verzeichnis, in dem empfangene Bilder abgespeichert werden.
+#                   Beispiel: "images"
+imagepath = "images"
